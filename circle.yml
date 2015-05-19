@@ -1,0 +1,8 @@
+deployent:
+  staging:
+    branch:master
+    heroku:
+      appname: spectacula
+machine:
+  ruby:
+    version: 2.2.0
