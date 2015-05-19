@@ -1,4 +1,4 @@
-deployent:
+deployment:
   staging:
     branch: master
     heroku:
