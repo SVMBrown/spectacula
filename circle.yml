@@ -1,6 +1,6 @@
 deployent:
   staging:
-    branch:master
+    branch: master
     heroku:
       appname: spectacula
 machine:
