@@ -1,17 +1,23 @@
 %html
   %head
+  %link{:href => "/application.css", :rel => "stylesheet", :type => "text/css"}
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title Spectacula
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body{class: [controller_name + "_" + action_name]}
+    %p.alert
+      = flash[:alert]
+    %p.notice
+      = flash[:notice]
+
     = yield
 
   - if current_user
-  Logged in as #{current_user.email}.
-  \#{link_to "Log out", logout_path}
-- else
-  = link_to "Sign up", signup_path
-  or
-  \#{link_to "log in", login_path}.
+    Logged in as #{current_user.email}.
+    \#{link_to "Log out", logout_path}
+  - else
+    = link_to "Sign up", signup_path
+    or
+    \#{link_to "log in", login_path}.
