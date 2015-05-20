@@ -1,17 +1,15 @@
-%h1 Choose a new password
-= form_for @user, :url => password_reset_path(@token), :html => {:method => :put} do |f|
+= form_for(@user) do |f|
   - if @user.errors.any?
     #error_explanation
       %h2
         = pluralize(@user.errors.count, "error")
         prohibited this user from being saved:
       %ul
-        - @user.errors.full_messages.each do |msg|
-          %li= msg
+        - @user.errors.full_messages.each do |message|
+          %li= message
   .field
     = f.label :email
-    %br/
-    = @user.email
+    = f.text_field :email
   .field
     = f.label :password
     %br/
@@ -20,5 +18,5 @@
     = f.label :password_confirmation
     %br/
     = f.password_field :password_confirmation
-  .actions
-    = f.submit
+  = f.submit
+  = f.submit

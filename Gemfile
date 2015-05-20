@@ -44,7 +44,6 @@ group :development, :test do
   gem 'spring'
 end
 
-
 gem 'coffee-rails-source-maps'
 gem 'haml-rails'
 gem 'simple_form'

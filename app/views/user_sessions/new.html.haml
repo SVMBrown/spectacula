@@ -1,0 +1,37 @@
+
+= form_tag user_sessions_path do
+
+  .form-wrapper
+%h1 Sign In
+  %form
+    .form-item
+      %label{:for => :email}
+      %input{:email => :email, :placeholder => "Email Address", :required => "required", :type => "email"}
+    .form-item
+      %label{:for => :password}
+      %input{:name => :password, :placeholder => "Password", :required => "required", :type => "password"}
+      .form-item
+      %label{:for => check_box_tag}
+      %input{:name => :remember_me, 1, :placeholder => "Password", :required => "required", :type => :remember_me}
+    .button-panel
+      %input.button{:title => "Sign In", :type => submit_tag, :value => "Sign In"}
+  .form-footer
+    %p
+      %a{:href => new_user_path} Create an account
+    %p
+      %a{:href => new_password_reset_path} Forgot password?
+
+
+
+
+  / .field
+  /   = label_tag :email
+  /   = text_field_tag :email, params[:email]
+  / .field
+  /   = label_tag :password
+  /   = password_field_tag :password
+  / .field
+  /   = check_box_tag :remember_me, 1, params[:remember_me]
+  /   = label_tag :remember_me
+  / .actions= submit_tag "Log in"
+
