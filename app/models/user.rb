@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   validates :email, :handle, uniqueness: true, presence: true
   validates :password, confirmation: true
   validates :password_confirmation, presence: true
-  has_many :game_players
+  has_many :game_players, foreign_key: :player_id
   has_many :games, through: :game_players
 
   def total_wins
@@ -22,6 +22,6 @@ class User < ActiveRecord::Base
   end
 
   def win_rate
-    total_wins / total_games
+    total_games != 0 ? total_wins / total_games.to_f : 0
   end
 end
