@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
-  
+
 
 
   validates :email, :handle, uniqueness: true, presence: true
@@ -8,4 +8,20 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true
   has_many :game_players
   has_many :games, through: :game_players
+
+  def total_wins
+    self.games.where.not(winner_id: nil).where(winner_id: self.id).count
+  end
+
+  def total_games
+    self.games.where.not(winner_id: nil).count
+  end
+
+  def total_losses
+    total_games - total_wins
+  end
+
+  def win_rate
+    total_wins / total_games
+  end
 end
