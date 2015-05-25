@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get 'rules/index'
+  get 'users/new'
+
   resources :password_resets, only: [:edit, :create, :update, :new]
   resources :user_sessions, only: [:new, :create, :destroy]
   resources :users
