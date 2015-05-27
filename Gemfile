@@ -50,9 +50,11 @@ gem 'simple_form'
 group :development do
   gem 'pry-rails'
   gem 'pry-theme'
+  gem 'react-rails', '~> 1.0'
   gem 'best_errors'
   gem 'quiet_assets'
   gem 'letter_opener'
   gem 'faker'
   gem 'did_you_mean'
+  gem 'leaderboard'
 end

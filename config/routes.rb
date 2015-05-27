@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
 
   get 'rules/index'
+
+  get 'rules/show'
+
+  get 'leaderboard/index'
+
+  get 'leaderboard/show'
+
+  get 'rules/index'
   get 'users/new'
 
   resources :password_resets, only: [:edit, :create, :update, :new]
