@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:edit, :create, :update, :new]
   resources :user_sessions, only: [:new, :create, :destroy]
   resources :users
-  resources :games, only: [:show]
+  resources :games
   get "signup" => "users#new", :as => :signup
+  get "games/:id/play" => "games#play"
   get 'login' => 'user_sessions#new', :as => :login
   post 'logout' => 'user_sessions#destroy', :as => :logout
   root 'user_sessions#new'

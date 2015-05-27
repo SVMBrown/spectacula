@@ -21,7 +21,28 @@ var Board = React.createClass({displayName: "Board",
         );
     }
 });
+var setupWS = function (ws) {
+
+  ws.onmessage = function(e) {
+    console.log(e);
+    $('#log').append(e.data + "\n");
+    $('#msg').prop('disabled', false);
+    $('#submit').prop('disabled', false);
+    $('#msg').val('');
+  };
+  $("body").on('submit', "form", function(e) {
+    var move = $('#msg').val();
+    ws.send(move);
+    $('#msg').prop('disabled', true);
+    $('#submit').prop('disabled', true);
+    e.preventDefault();
+  });
+}
 var ready = function () {
+  if($('#container').data('game-id') !== undefined) {
+    var ws = new WebSocket("ws://" + window.location.host + "/games/" + $('#container').data('game-id') + "/play");
+    setupWS(ws);
+  }
   React.render(React.createElement(Board, null), $('div#container')[0]);
 }
 $(document).ready(ready);
