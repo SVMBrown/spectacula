@@ -1,0 +1,25 @@
+
+%center
+  %h1 Leaderboards
+  %table.rwd-table
+    %tr
+      %th User
+      %th Wins
+      %th Losses
+      %th Games Played
+      %th Win Rate
+    -@users.each do | user | 
+    -@total_wins.sort 
+      %tr
+        %td{"data-th" => "User"} 
+          =user.handle
+        %td{"data-th" => "Wins"} 
+          =user.total_wins
+        %td{"data-th" => "Losses"}
+          =user.total_losses
+        %td{"data-th" => "Games Played"}
+          =user.total_games
+        %td{"data-th" => "Win Rate"} 
+          =user.win_rate
+
+     
