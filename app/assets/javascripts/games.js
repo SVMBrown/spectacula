@@ -39,10 +39,11 @@ var setupWS = function (ws) {
   });
 }
 var ready = function () {
-  if($('#container').data('game-id') !== undefined) {
+  var body = document.getElementsByTagName('body')[0];
+  if(body.classList.contains('games') && body.classList.contains('show')) {
     var ws = new WebSocket("ws://" + window.location.host + "/games/" + $('#container').data('game-id') + "/play");
     setupWS(ws);
+    React.render(React.createElement(Board, null), $('div#container')[0]);
   }
-  React.render(React.createElement(Board, null), $('div#container')[0]);
 }
 $(document).ready(ready);

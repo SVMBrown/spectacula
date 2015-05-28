@@ -1,24 +1,14 @@
 Rails.application.routes.draw do
 
- 
-  get 'landing/index'
-
-  get 'rules/show'
-
-  get 'leaderboard/index'
-
-  get 'leaderboard/show'
-
-  get 'rules/index'
-  get 'users/new'
-
-  get 'rules' => "rules#index"
 
 
   resources :password_resets, only: [:edit, :create, :update, :new]
   resources :user_sessions, only: [:new, :create, :destroy]
-  resources :users
-  resources :games
+  resources :users, only: [:new, :create]
+  resources :landing, only:[:index]
+  resources :rules, only: [:show, :index]
+  resources :leaderboard, only: [:index, :show]
+  resources :games, only: [:show]
   get "signup" => "users#new", :as => :signup
   get "games/:id/play" => "games#play"
   get 'login' => 'user_sessions#new', :as => :login
