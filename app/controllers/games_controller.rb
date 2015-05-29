@@ -24,7 +24,7 @@ class GamesController < ApplicationController
         gp.set_move_list data
         tube.send_data(JSON.generate({name: "Accepted move"}))
         if @game.game_players.all? {|gameplayer| gameplayer.movelist }
-          tube.send_data generate_round
+          tube.send_data(generate_round(game.game_players.map {|gp| JSON.generate(gp.movelist)[:data]})
           @game.game_players.each {|gameplayer| gameplayer.movelist = nil }
         end
       end
@@ -35,7 +35,16 @@ class GamesController < ApplicationController
     end
   end
 private
-  def generate_round
-    lists = {}
+  def generate_round(lists)
+    moveQueue = []
+    until lists.all?{|list| list.empty? } do
+      round = []
+      lists.each do |l|
+        round << l.pop
+      end
+      round.sort!
+      moveQueue = round + moveQueue
+    end
+    moveQueue
   end
 end
