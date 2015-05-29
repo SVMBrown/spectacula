@@ -8,18 +8,18 @@
       %th Losses
       %th Games Played
       %th Win Rate
-    -@users.each do | user | 
-    -@total_wins.sort 
+    -@users.sort{|a, b| a.total_wins <=> b.total_wins}
+    -@users.each do | user |
       %tr
-        %td{"data-th" => "User"} 
+        %td{"data-th" => "User"}
           =user.handle
-        %td{"data-th" => "Wins"} 
+        %td{"data-th" => "Wins"}
           =user.total_wins
         %td{"data-th" => "Losses"}
           =user.total_losses
         %td{"data-th" => "Games Played"}
           =user.total_games
-        %td{"data-th" => "Win Rate"} 
+        %td{"data-th" => "Win Rate"}
           =user.win_rate
 
-     
+

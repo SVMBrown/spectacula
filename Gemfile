@@ -29,6 +29,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Unicorn as the app server
 # gem 'unicorn'
 
+gem 'tubesock'
+gem 'puma'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'sorcery'
@@ -50,7 +52,6 @@ gem 'simple_form'
 group :development do
   gem 'pry-rails'
   gem 'pry-theme'
-  gem 'react-rails', '~> 1.0'
   gem 'best_errors'
   gem 'quiet_assets'
   gem 'letter_opener'
