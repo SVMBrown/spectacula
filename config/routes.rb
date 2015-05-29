@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :landing, only:[:index]
   resources :rules, only: [:show, :index]
   resources :leaderboard, only: [:index, :show]
-  resources :games, only: [:show]
+  resources :games, only: [:new, :show]
   get "signup" => "users#new", :as => :signup
   get "games/:id/play" => "games#play"
   get 'login' => 'user_sessions#new', :as => :login

@@ -6,4 +6,13 @@ class Game < ActiveRecord::Base
       GamePlayer.create(player_id: p.id, game_id: id)
     end
   end
+  def add_player(player)
+    GamePlayer.create(player_id: player.id, game_id: id)
+  end
+  def open
+    players.count < (capacity || 0)
+  end
+  def active
+    !(open || winner_id)
+  end
 end
