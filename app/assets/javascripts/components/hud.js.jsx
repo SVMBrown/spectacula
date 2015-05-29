@@ -2,8 +2,8 @@ var HUD = React.createClass({
   render: function(){
     return(
       <div class='hud'>
-      <MovesList moves={this.props.moves} />
-      <MoveSelector />
+      <MovesList max={this.props.max} moves={this.props.moves} />
+      <MoveSelector {...this.props} />
        </div>
       );
   }

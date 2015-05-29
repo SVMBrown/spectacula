@@ -11,7 +11,10 @@ var Board = React.createClass({
           })(y));
         }
         return (
-          <table><tbody>{rows}</tbody></table>
+          <div>
+            <table><tbody>{rows}</tbody></table>
+            <ul>{this.props.moves.map(function(elem){<li>{elem.name}</li>})}</ul>
+          </div>
         );
     }
 });

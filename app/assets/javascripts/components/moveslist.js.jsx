@@ -1,8 +1,12 @@
 var MovesList = React.createClass({
   render: function(){
+    var moves = [];
+    for(var i=0; i < this.props.max; i++) {
+      moves.push(this.props.moves[i] || {name: "Select Move"});
+    }
     return(
      <ol>
-      {this.props.moves.map(function(elem){return(<li> {elem || "00"} </li>)})}
+      {moves.map(function(elem){return(<li> {elem.name} </li>)})}
     </ol>);
   }
 });

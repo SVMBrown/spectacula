@@ -10,23 +10,23 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     hijack do |tube|
       tube.onopen do
-        tube.send_data("BEGIN")
+        tube.send_data(JSON.generate({name: "BEGIN"}))
       end
 
       tube.onmessage do |data|
         $moves << data
-        tube.send_data("Accepted move")
+        tube.send_data(JSON.generate({name: "Accepted move"}))
         if $moves.length >= @game.players.count
-          tube.send_data("ROUND START")
+          tube.send_data(JSON.generate({name: "ROUND START"}))
           until $moves.empty? do
             tube.send_data($moves.pop)
           end
-          tube.send_data("ROUND END")
+          tube.send_data(JSON.generate({name: "ROUND END"}))
         end
       end
 
       tube.onclose do
-        tube.send_data("GAME OVER")
+        tube.send_data(JSON.generate({name: "GAME OVER"}))
       end
     end
   end
