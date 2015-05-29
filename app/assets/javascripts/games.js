@@ -1,3 +1,12 @@
+var messageObject = function(str, moves) {
+  var msg = {};
+  if(str === "commit") {
+    msg.name = "commit";
+    msg.type = "commit";
+    msg.moves = moves;
+  }
+  return JSON.stringify(msg);
+}
 var setupWS = function (ws) {
   ws.onmessage = function(e) {
     console.log(e);

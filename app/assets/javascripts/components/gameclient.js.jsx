@@ -15,7 +15,8 @@ var GameClient = React.createClass({
           x: 0,
           y: 0
         },
-        moveQueue: []
+        moveQueue: [],
+        freezeInput: false
       }
   },
   render: function(){
@@ -27,10 +28,7 @@ var GameClient = React.createClass({
     );
   },
   commitMoves: function() {
-    var that = this;
-    this.state.pendingMoves.forEach(function(elem){
-      that.props.websocket.send(JSON.stringify(elem));
-    });
+    this.props.websocket.send(messageObject("commit", this.state.pendingMoves));
     this.setState({pendingMoves: []});
   },
   loadMove: function(move) {
@@ -43,8 +41,11 @@ var GameClient = React.createClass({
     });
   },
   handleMessage: function (e) {
+    var message = JSON.parse(e.data);
+    console.log("handling " + message.name);
     var newQ = this.state.moveQueue;
-    newQ.push(JSON.parse(e.data));
+    if(message.type === "movelist")
+      newQ = message.moves;
     this.setState({moveQueue: newQ});
   },
   componentDidMount: function () {
@@ -53,5 +54,19 @@ var GameClient = React.createClass({
       console.log(e);
       that.handleMessage(e);
     }
+  },
+  componentDidUpdate: function () {
+    if(this.state.moveQueue.length) {
+      var moveQ = this.state.moveQueue;
+      this.resolveMove(moveQ.pop());
+      setTimeout(this.setState({moveQueue: moveQ,
+        freezeInput: true}), 300);
+
+    } else if(this.state.freezeInput) {
+      this.setState({freezeInput: false});
+    }
+  },
+  resolveMove: function(move) {
+    console.log("resolving " + move.name);
   }
 });

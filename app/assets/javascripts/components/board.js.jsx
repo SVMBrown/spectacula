@@ -13,7 +13,7 @@ var Board = React.createClass({
         return (
           <div>
             <table><tbody>{rows}</tbody></table>
-            <ul>{this.props.moves.map(function(elem){<li>{elem.name}</li>})}</ul>
+            <MoveQueue {...this.props} />
           </div>
         );
     }
