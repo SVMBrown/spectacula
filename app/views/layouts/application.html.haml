@@ -12,10 +12,8 @@
       = flash[:notice]
 
     .navbar
-      %a{:href => "/games/show"} 
-        Play Now
-      %a{:href => "/rules/index"} 
-        Rules
+      = link_to "Play Now", new_game_path
+      = link_to "Rules", rules_path
       %a{:href => "#"}
         - if current_user
           Logged in as #{current_user.handle}.
