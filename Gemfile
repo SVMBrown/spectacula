@@ -48,6 +48,7 @@ end
 
 gem 'coffee-rails-source-maps'
 gem 'haml-rails'
+gem 'paperclip', '~> 4.1'
 gem 'simple_form'
 group :development do
   gem 'pry-rails'
