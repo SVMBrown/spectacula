@@ -10,10 +10,6 @@ var messageObject = function(str, moves) {
 var setupWS = function (ws) {
   ws.onmessage = function(e) {
     console.log(e);
-    $('#log').append(e.data + "\n");
-    $('#msg').prop('disabled', false);
-    $('#submit').prop('disabled', false);
-    $('#msg').val('');
   };
 }
 var ready = function () {
@@ -25,4 +21,4 @@ var ready = function () {
   }
 }
 $(document).ready(ready);
-$(document).on(page:load, ready);
+$(document).on('page:load', ready);
