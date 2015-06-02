@@ -1,5 +1,7 @@
 %h1= @user.handle
 %h1= @user.email
+= image_tag @user.avatar.url(:thumb)
+
 
 - if current_user
   %h4 New Comment

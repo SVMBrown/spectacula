@@ -1,0 +1,27 @@
+= form_for @user do |f|
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .field
+    = f.label :email
+    %br/
+    = f.text_field :email
+  .field
+    = f.label :gender
+    %br/
+    = f.password_field :gender
+  .field
+    = f.label :location
+  %br/
+    = f.password_field :location
+  .field
+    = f.label :bio
+    %br/
+    = f.password_field :bio
+  .actions
+    = f.submit "Update Profile"
+= form_for @user do |f|
+  = f.file_field :avatar
+  %br/
+  = f.submit "Update"
