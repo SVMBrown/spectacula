@@ -13,6 +13,14 @@ class UsersController < ApplicationController
     end
   end
 
+def show
+  @user = User.find(params[:id])
+
+  if current_user
+    @comment = @user.comments.build
+  end
+end
+
   private
 
   def user_params

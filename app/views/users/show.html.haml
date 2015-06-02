@@ -1,2 +1,25 @@
 %h1= @user.handle
 %h1= @user.email
+
+- if current_user
+  %h4 New Comment
+= form_for([@user, @comment]) do |f|
+  - if @comment.errors.any?
+  #error_explanation
+  %h2
+    = pluralize(@comment.errors.count, "error")
+      Comment could not be submitted.
+%ul
+  - @comment.errors.full_messages.each do |msg|
+%li= msg
+  .field
+    = f.label :comment
+%br/
+  = f.text_area :comment
+.actions
+  = f.submit
+- else
+%p
+  Please #{link_to "log in", new_session_path} to add a review.
+\.
+\.
