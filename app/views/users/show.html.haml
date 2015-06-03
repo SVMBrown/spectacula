@@ -3,6 +3,9 @@
 = image_tag @user.avatar.url(:thumb)
 
 
+= link_to 'Add Friend', friendships_path(:friend_id => user_id), :method => :post
+
+
 - if current_user
   %h4 New Comment
   = form_for([@user, @comment]) do |f|
