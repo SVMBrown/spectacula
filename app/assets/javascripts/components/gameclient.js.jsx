@@ -60,7 +60,7 @@ var GameClient = React.createClass({
       var moveQ = this.state.moveQueue;
       this.resolveMove(moveQ.pop());
       var that = this;
-      setTimeout(function () {that.setState({moveQueue: moveQ,
+      setTimeout(function() {that.setState({moveQueue: moveQ,
         freezeInput: true})}, 300);
 
     } else if(this.state.freezeInput) {
