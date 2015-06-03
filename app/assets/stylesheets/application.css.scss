@@ -4,6 +4,10 @@
 
 @import url(http://weloveiconfonts.com/api/?family=fontawesome);
 
+@import "bourbon";
+
+
+
 .navbar:before {
   content: '\A';
   display: relative;
@@ -72,7 +76,7 @@ $keycolor-transparent: #64D2A3;
   margin: 0 130 130px;
   padding-top: 0px;
   top: 0px;
- 
+
 
 
   &:hover, &:focus {
@@ -126,8 +130,8 @@ $keycolor-transparent: #64D2A3;
 
 }
 
-.fade { background-color:rgba(0,0,0,.40) !important; 
- 
+.fade { background-color:rgba(0,0,0,.40) !important;
+
 
  }
 
@@ -152,7 +156,7 @@ header h2 {
   letter-spacing: px;
   margin-top: -30px;
   margin-bottom: 30px;
- 
+
   color: #ffffff;
 }
 
@@ -161,12 +165,12 @@ header nav {
   position:relative;
   margin-top: 20px;
    text-shadow: 1px 1px 1px #000;
- 
+
   padding: 0px;
 }
 
 nav li {
-  
+
   font-family: 'Ubuntus';
   font-size: 60px;
   text-align:center;
@@ -203,11 +207,11 @@ nav a {
   border-left:2px solid #ffffff;
 
   left: 13%;
- 
+
   border-radius: 300px;
   height: 400px;
   width: 400px;
-  
+
   margin: 200px 300px 100px 330px;
   position:relative;
 }
@@ -237,7 +241,7 @@ $header__height: 50px;
   line-height: 50px;
   text-align: center;
   background: #000;
-  
+
   .is-fixed & {
     top: 0;
     position: fixed;
@@ -270,7 +274,7 @@ body {
 h1 {
   text-align: center;
   padding: 1em 0;
- 
+
 }
 
 .field {
@@ -343,11 +347,11 @@ h1 {
 
 
 
-$breakpoint-alpha: 480px; 
+$breakpoint-alpha: 480px;
 
 .rwd-table {
   margin: 1em 0;
-  min-width: 300px; 
+  min-width: 300px;
 
 tr {
   border-top: 1px solid #ddd;
@@ -355,11 +359,11 @@ tr {
 }
 
 th {
-  display: none; 
+  display: none;
 }
 
 td {
-  display: block; 
+  display: block;
 
 &:first-child {
   padding-top: .5em;
@@ -369,9 +373,9 @@ td {
 }
 
 &:before {
-  content: attr(data-th)": "; 
+  content: attr(data-th)": ";
   font-weight: bold;
-  width: 6.5em; 
+  width: 6.5em;
   display: inline-block;
 
   @media (min-width: $breakpoint-alpha) {
@@ -412,8 +416,8 @@ tr {
 
 th, td {
   margin: .5em 1em;
-  @media (min-width: $breakpoint-alpha) { 
-  padding: 1em !important; 
+  @media (min-width: $breakpoint-alpha) {
+  padding: 1em !important;
 }
 
 }
@@ -478,7 +482,7 @@ section {
       background: $overlay-second;
     }
   }
-  
+
 
 .page-title {
     padding-top: 30px;
@@ -487,7 +491,7 @@ section {
     color: #ffffff;
 
   }
-  
+
 .content {
   position: relative;
   z-index: 100;
@@ -495,7 +499,7 @@ section {
   height: relative;
 
   }
-  
+
 
 figure {
   ul {
@@ -511,7 +515,7 @@ figure {
       height: 60%;
       padding: 20px;
       border-radius: 10px;
-        
+
       }
     }
   }
