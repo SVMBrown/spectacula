@@ -1,4 +1,4 @@
-$(document).ready(function() {
+var toggle = function(){
   var menuToggle = $('#js-centered-navigation-mobile-menu').unbind();
   $('#js-centered-navigation-menu').removeClass("show");
 
@@ -10,4 +10,7 @@ $(document).ready(function() {
       }
     });
   });
-});
+}
+
+$(document).ready(toggle);
+$(document).on('page:load', toggle);
