@@ -11,10 +11,10 @@ var GameClient = React.createClass({
   getInitialState: function(){
     return {
         pendingMoves: [],
-        player: {
+        players: [{
           x: 0,
           y: 0
-        },
+        }],
         moveQueue: [],
         freezeInput: false
       }
@@ -22,7 +22,7 @@ var GameClient = React.createClass({
   render: function(){
     return (
       <div>
-        <Board {...this.props} moves={this.state.moveQueue} />
+        <Board {...this.props} moves={this.state.moveQueue} players={this.state.players} />
         <HUD {...this.props} moves={this.state.pendingMoves} load={this.loadMove} commit={this.commitMoves} />
       </div>
     );
@@ -34,7 +34,7 @@ var GameClient = React.createClass({
   loadMove: function(move) {
     var newMoves = this.state.pendingMoves;
     if(newMoves.length < this.props.max) {
-      newMoves.push(move);
+      newMoves.unshift(move);
     }
     this.setState({
       pendingMoves: newMoves
@@ -44,8 +44,8 @@ var GameClient = React.createClass({
     var message = JSON.parse(e.data);
     console.log("handling " + message.name);
     var newQ = this.state.moveQueue;
-    if(message.type === "movelist")
-      newQ = message.moves;
+    if(message.type === "round")
+      newQ = message.data;
     this.setState({moveQueue: newQ});
   },
   componentDidMount: function () {
@@ -59,8 +59,9 @@ var GameClient = React.createClass({
     if(this.state.moveQueue.length) {
       var moveQ = this.state.moveQueue;
       this.resolveMove(moveQ.pop());
-      setTimeout(this.setState({moveQueue: moveQ,
-        freezeInput: true}), 300);
+      var that = this;
+      setTimeout(function() {that.setState({moveQueue: moveQ,
+        freezeInput: true})}, 300);
 
     } else if(this.state.freezeInput) {
       this.setState({freezeInput: false});

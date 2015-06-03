@@ -20,12 +20,12 @@ class GamesController < ApplicationController
       end
 
       tube.onmessage do |data|
-        gp = GamePlayer.all.where("player_id = #{current_user.id} AND game_id = #{@game.id}").first
-        gp.set_move_list data
-        tube.send_data(JSON.generate({name: "Accepted move"}))
-        if @game.game_players.all? {|gameplayer| gameplayer.movelist }
-          tube.send_data(generate_round(game.game_players.map {|gp| JSON.generate(gp.movelist)[:data]})
-          @game.game_players.each {|gameplayer| gameplayer.movelist = nil }
+        message = JSON.parse(data)
+        puts message
+        if message["type"] == "commit"
+          puts "commit"
+          record_move(message["moves"])
+          check_for_round(tube)
         end
       end
 
@@ -35,16 +35,32 @@ class GamesController < ApplicationController
     end
   end
 private
-  def generate_round(lists)
-    moveQueue = []
-    until lists.all?{|list| list.empty? } do
-      round = []
-      lists.each do |l|
-        round << l.pop
-      end
-      round.sort!
-      moveQueue = round + moveQueue
+  def generate_round(gameplayers)
+    round = []
+    moves = gameplayers.map do |gp|
+      JSON.parse(gp.movelist)
     end
-    moveQueue
+    until moves.all? {|move| move.empty? }
+      moves.each do |m|
+        round.unshift m.pop
+      end
+    end
+    puts "Sending #{round}"
+    JSON.generate({"type" => "round", "name" => "round message", "data" => round})
+  end
+  def record_move(obj)
+    GamePlayer.where(player_id: current_user, game_id: params[:id]).take.update(movelist: JSON.generate(obj))
+  end
+  def check_for_round(tube)
+    gameplayers = GamePlayer.where(game_id: params[:id])
+    if gameplayers.all? {|gp| !!gp.movelist }
+      tube.send_data generate_round(gameplayers)
+      reset_moves(gameplayers)
+    end
+  end
+  def reset_moves(gameplayers)
+    gameplayers.each do |gp|
+      gp.update(movelist: nil)
+    end
   end
 end
