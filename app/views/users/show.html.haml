@@ -3,7 +3,15 @@
 = image_tag @user.avatar.url(:thumb)
 
 
-= link_to 'Add Friend', friendships_path(:friend_id => user_id), :method => :post
+= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post
+
+%h2 Friends
+%ul
+  - for friendship in @user.friendships
+    %li
+      = h friendship.friend.username
+      (#{link_to "remove", friendship, :method => :delete})
+%p= link_to "Find Friends", users_path
 
 
 - if current_user

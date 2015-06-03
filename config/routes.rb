@@ -2,35 +2,13 @@ Rails.application.routes.draw do
 
 
 
-  get 'friendships/show'
+  get 'friendship/user_id:integer'
 
-  get 'friendships/new'
+  get 'friendship/friend_id:integer'
 
-  get 'friendships/edit'
+  get 'friendship/create'
 
-  get 'friendships/delete'
-
-  get 'user_friends/view'
-
-  get 'user_friends/new'
-
-  get 'user_friends/edit'
-
-  get 'user_friends/delete'
-
-  get 'friends/view'
-
-  get 'friends/new'
-
-  get 'friends/edit'
-
-  get 'friends/delete'
-
-  get 'comments/show'
-
-  get 'comments/create'
-
-  get 'comments/destroy'
+  get 'friendship/destroy'
 
   resources :password_resets, only: [:edit, :create, :update, :new]
   resources :user_sessions, only: [:new, :create, :destroy]
