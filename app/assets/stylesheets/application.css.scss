@@ -5,7 +5,10 @@
 @import url(http://weloveiconfonts.com/api/?family=fontawesome);
 
 @import "bourbon";
+@import "base/base";
+@import "neat";
 
+@import "header.scss";
 
 
 .navbar:before {
@@ -135,65 +138,65 @@ $keycolor-transparent: #64D2A3;
 
  }
 
-header {
-  padding-top: px;
-}
-header h1 {
-  font-family: 'Open Sans';
-  font-size: 50px;
-  text-align: center;
-  margin-top: 70px;
-  color: #FFFFFF;
-  font-weight:lighter;
-  letter-spacing:4px;
-  text-shadow: 1px 1px 3px #000;
-}
+// header {
+//   padding-top: px;
+// }
+// header h1 {
+//   font-family: 'Open Sans';
+//   font-size: 50px;
+//   text-align: center;
+//   margin-top: 70px;
+//   color: #FFFFFF;
+//   font-weight:lighter;
+//   letter-spacing:4px;
+//   text-shadow: 1px 1px 3px #000;
+// }
 
-header h2 {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 15px;
-  text-align: center;
-  letter-spacing: px;
-  margin-top: -30px;
-  margin-bottom: 30px;
+// header h2 {
+//   font-family: 'Open Sans', sans-serif;
+//   font-size: 15px;
+//   text-align: center;
+//   letter-spacing: px;
+//   margin-top: -30px;
+//   margin-bottom: 30px;
 
-  color: #ffffff;
-}
+//   color: #ffffff;
+// }
 
-header nav {
-  text-align: center;
-  position:relative;
-  margin-top: 20px;
-   text-shadow: 1px 1px 1px #000;
+// header nav {
+//   text-align: center;
+//   position:relative;
+//   margin-top: 20px;
+//    text-shadow: 1px 1px 1px #000;
 
-  padding: 0px;
-}
+//   padding: 0px;
+// }
 
-nav li {
+// nav li {
 
-  font-family: 'Ubuntus';
-  font-size: 60px;
-  text-align:center;
-  padding: 5px;
-  margin: 5px;
-  letter-spacing: .5px;
-  font-weight: bold
-}
+//   font-family: 'Ubuntus';
+//   font-size: 60px;
+//   text-align:center;
+//   padding: 5px;
+//   margin: 5px;
+//   letter-spacing: .5px;
+//   font-weight: bold
+// }
 
-div p {
-  font-family: 'Open Sans', sans-serif;
-  text-align: center;
-  font-size: 20px;
-  margin-left: 65px;
-}
+// div p {
+//   font-family: 'Open Sans', sans-serif;
+//   text-align: center;
+//   font-size: 20px;
+//   margin-left: 65px;
+// }
 
-nav a {
-  color: #FFFFFF;
-  text-decoration: none;
-  font-size: 60px;
-  text-align:center;
-  border-bottom: 2px solid;
-}
+// nav a {
+//   color: #FFFFFF;
+//   text-decoration: none;
+//   font-size: 60px;
+//   text-align:center;
+//   border-bottom: 2px solid;
+// }
 
 
 
