@@ -2,6 +2,30 @@ Rails.application.routes.draw do
 
 
 
+  get 'friendships/show'
+
+  get 'friendships/new'
+
+  get 'friendships/edit'
+
+  get 'friendships/delete'
+
+  get 'user_friends/view'
+
+  get 'user_friends/new'
+
+  get 'user_friends/edit'
+
+  get 'user_friends/delete'
+
+  get 'friends/view'
+
+  get 'friends/new'
+
+  get 'friends/edit'
+
+  get 'friends/delete'
+
   get 'comments/show'
 
   get 'comments/create'
@@ -10,14 +34,13 @@ Rails.application.routes.draw do
 
   resources :password_resets, only: [:edit, :create, :update, :new]
   resources :user_sessions, only: [:new, :create, :destroy]
-  resources :users, only: [:new, :create, :show]
+  resources :users, only: [:new, :create, :show] do 
+    resources :comments, only: [:create, :destroy]
+  end
   resources :landing, only:[:index]
   resources :rules, only: [:show, :index]
   resources :leaderboard, only: [:index, :show]
   resources :games, only: [:new, :show]
-  resources :users do
-  resources :comments, only: [:show, :create, :destroy]
-end
   get "signup" => "users#new", :as => :signup
   get "games/:id/play" => "games#play"
   get 'login' => 'user_sessions#new', :as => :login
