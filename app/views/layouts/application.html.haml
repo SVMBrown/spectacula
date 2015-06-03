@@ -11,16 +11,63 @@
     %p.notice
       = flash[:notice]
 
-    .navbar
-      = link_to "Play Now", new_game_path
-      = link_to "Rules", rules_path
-      %a{:href => "#"}
-        - if current_user
-          Logged in as #{current_user.handle}.
-          \#{link_to "Log out", :logout, method: :post}
-        - else
-          = link_to "Sign up", signup_path
-          \#{link_to "Log in", login_path}.
+
+    %header.centered-navigation{:role => "banner"}
+      .centered-navigation-wrapper
+        %a.mobile-logo{:href => "javascript:void(0)"}
+          %img{:alt => "Logo image", :src => "http://i58.tinypic.com/r9ra84.png"}/
+        %a#js-centered-navigation-mobile-menu.centered-navigation-mobile-menu{:href => "javascript:void(0)"} MENU
+        %nav{:role => "navigation"}
+          %ul#js-centered-navigation-menu.centered-navigation-menu.show
+            %li.nav-link
+              %a{:href => "javascript:void(0)"} Leaderboards
+            %li.nav-link
+              %a{:href => "javascript:void(0)"} News
+            %li.nav-link
+              %a{:href => "javascript:void(0)"} Contact
+            %li.nav-link.logo
+              %a.logo{:href => "javascript:void(0)"}
+                %img{:alt => "Logo image", :src => "http://i58.tinypic.com/r9ra84.png"}/
+            %li.nav-link.more
+              %a{:href => "javascript:void(0)"} More
+              %ul.submenu
+                %li
+                  %a{:href => "javascript:void(0)"} Submenu Item
+                %li
+                  %a{:href => "javascript:void(0)"} Another Item
+                %li.more
+                  %a{:href => "javascript:void(0)"} Item with submenu
+                  %ul.submenu
+                    %li
+                      %a{:href => "javascript:void(0)"} Sub-submenu Item
+                    %li
+                      %a{:href => "javascript:void(0)"} Another Item
+                %li.more
+                  %a{:href => "javascript:void(0)"} Another submenu
+                  %ul.submenu
+                    %li
+                      %a{:href => "javascript:void(0)"} Sub-submenu
+                    %li
+                      %a{:href => "javascript:void(0)"} An Item
+            %li.nav-link
+              %a.userinfo
+                - if current_user
+                  Logged in as #{current_user.handle}.
+                  \#{link_to "Log out", :logout, method: :post}
+                - else
+                  = link_to "Sign up", signup_path
+                  \#{link_to "Log in", login_path}.
+
+    -# .navbar
+    -#   = link_to "Play Now", new_game_path
+    -#   = link_to "Rules", rules_path
+    -#   %a{:href => "#"}
+    -#     - if current_user
+    -#       Logged in as #{current_user.handle}.
+    -#       \#{link_to "Log out", :logout, method: :post}
+    -#     - else
+    -#       = link_to "Sign up", signup_path
+    -#       \#{link_to "Log in", login_path}.
 
     = yield
 
