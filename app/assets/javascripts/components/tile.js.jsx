@@ -1,8 +1,6 @@
 var Tile = React.createClass({
   getStyle: function () {
-    if(this.props.occupant !== "empty") {
-      return {color: 'red'};
-    }
+    return {color: this.props.occupant};
   },
   render: function () {
     return(

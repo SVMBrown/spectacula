@@ -9,7 +9,10 @@ var messageObject = function(str, moves) {
 }
 var setupWS = function (ws) {
   ws.onmessage = function(e) {
-    console.log(e);
+    var message = e.data;
+    if(message.type === "setup") {
+      React.render(React.createElement(GameClient, {websocket: ws, players: message.players, maxmoves: message.maxmoves, size: message.boardsize}), $('div#container')[0]);
+    }
   };
 }
 var ready = function () {
@@ -17,7 +20,6 @@ var ready = function () {
   if(body.classList.contains('games') && body.classList.contains('show')) {
     var ws = new WebSocket("ws://" + window.location.host + "/games/" + $('#container').data('game-id') + "/play");
     setupWS(ws);
-    React.render(React.createElement(GameClient, {websocket: ws}), $('div#container')[0]);
   }
 }
 $(document).ready(ready);

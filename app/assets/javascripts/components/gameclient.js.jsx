@@ -4,22 +4,27 @@ var GameClient = React.createClass({
   getDefaultProps: function() {
     return {
       max: 4,
-      size: 8,
-      players: 2
+      size: 8
     }
   },
   getInitialState: function(){
     return {
         pendingMoves: [],
         players: [{
+          color: 'green',
           x: 0,
           y: 0
+        },{
+          color: 'purple',
+          x: 5,
+          y:5
         }],
         moveQueue: [],
         freezeInput: false
       }
   },
   render: function(){
+    console.log(this.state);
     return (
       <div>
         <Board {...this.props} moves={this.state.moveQueue} players={this.state.players} />
