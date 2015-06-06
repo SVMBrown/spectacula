@@ -3,7 +3,7 @@ class GamesController < ApplicationController
 
   def new
     puts "entered Controller"
-    openGames = [] || Game.all.select{|g| g && g.open}
+    openGames = Game.all.select{|g| g && g.open}
 
     @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 2)
     puts "Selected game #{@game.id}"
