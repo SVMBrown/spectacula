@@ -15,7 +15,12 @@ var setupWS = function (ws) {
 var ready = function () {
   var body = document.getElementsByTagName('body')[0];
   if(body.classList.contains('games') && body.classList.contains('show')) {
-    var ws = new WebSocket("wss://" + window.location.host + "/games/" + $('#container').data('game-id') + "/play");
+    if(window.location.protocol === "https:") {
+      var wsurl = "wss://" + window.location.host + "/games/" + $('#container').data('game-id') + "/play";
+    } else {
+      var wsurl = "ws://" + window.location.host + "/games/" + $('#container').data('game-id') + "/play";
+    }
+    var ws = new WebSocket(wsurl);
     setupWS(ws);
     React.render(React.createElement(GameClient, {websocket: ws}), $('div#container')[0]);
   }
