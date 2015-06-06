@@ -1,12 +1,12 @@
 var Board = React.createClass({
     playerAt: function (x, y) {
-      occupants = this.props.players.filter(function(elem){return(elem.x === x && elem.y === y)});
+      occupants = this.props.players.filter(function(elem){return(elem.position.x === x && elem.position.y === y)});
       if(occupants.length === 0) {
-        return "empty";
+        return 'white';
       } else if (occupants.length === 1) {
-        return "player";
+        return occupants[0].color;
       } else {
-        return "collision";
+        return 'red';
       }
     },
     render: function () {

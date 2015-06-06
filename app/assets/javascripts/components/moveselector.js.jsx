@@ -1,10 +1,10 @@
 var MoveSelector = React.createClass({
   render: function () {
     var that = this;
-    return(<div><button onClick={(function(){that.props.load({name: "test 1", type: "move"})})}>test 1</button>
-      <button onClick={(function(){that.props.load({name: "test 2", type: "move"})})}>test 2</button>
-      <button onClick={(function(){that.props.load({name: "test 3", type: "move"})})}>test 3</button>
-      <button onClick={(function(){that.props.load({name: "test 4", type: "move"})})}>test 4</button>
+    return(<div><button onClick={(function(){that.props.load({name: "move left", type: "move"})})}>left</button>
+      <button onClick={(function(){that.props.load({name: "move right", type: "move"})})}>right</button>
+      <button onClick={(function(){that.props.load({name: "move up", type: "move"})})}>up</button>
+      <button onClick={(function(){that.props.load({name: "move down", type: "move"})})}>down</button>
       <button onClick={that.props.commit}>commit</button></div>);
   }
 });

@@ -10,7 +10,8 @@ class Game < ActiveRecord::Base
     GamePlayer.where(player_id: player.id, game_id: id).take || GamePlayer.create(player_id: player.id, game_id: id)
   end
   def open
-    players.count < (capacity || 0)
+    puts players.count
+    players && players.count < (capacity || 0)
   end
   def active
     !(open || winner_id)

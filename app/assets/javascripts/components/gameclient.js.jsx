@@ -5,16 +5,22 @@ var GameClient = React.createClass({
     return {
       max: 4,
       size: 8,
-      players: 2
+      colors: ['green', 'blue', 'yellow', 'purple'],
+      positions: [{x: 0, y: 0}, {x: 7, y: 7},
+      {x: 0, y: 7}, {x: 7, y: 0}]
     }
   },
   getInitialState: function(){
+    var that = this;
     return {
         pendingMoves: [],
-        players: [{
-          x: 0,
-          y: 0
-        }],
+        players: this.props.players.map(function(elem, i) {
+          return {
+            handle: elem,
+            color: that.props.colors[i],
+            position: that.props.positions[i]
+          };
+        }),
         moveQueue: [],
         freezeInput: false
       }
@@ -28,7 +34,7 @@ var GameClient = React.createClass({
     );
   },
   commitMoves: function() {
-    this.props.websocket.send(messageObject("commit", this.state.pendingMoves));
+    this.props.websocket.send(commitMessage(this.state.pendingMoves));
     this.setState({pendingMoves: []});
   },
   loadMove: function(move) {
@@ -40,34 +46,51 @@ var GameClient = React.createClass({
       pendingMoves: newMoves
     });
   },
-  handleMessage: function (e) {
-    var message = JSON.parse(e.data);
+  handleMessage: function (message) {
     console.log("handling " + message.name);
     var newQ = this.state.moveQueue;
     if(message.type === "round")
-      newQ = message.data;
+      newQ = message.roundQueue;
     this.setState({moveQueue: newQ});
   },
   componentDidMount: function () {
     var that = this;
     this.props.websocket.onmessage = function(e) {
-      console.log(e);
-      that.handleMessage(e);
+      that.handleMessage(JSON.parse(e.data));
     }
   },
-  componentDidUpdate: function () {
-    if(this.state.moveQueue.length) {
-      var moveQ = this.state.moveQueue;
-      this.resolveMove(moveQ.pop());
+  componentDidUpdate: function (prevProps, prevState) {
+    if(this.state.moveQueue.length && (this.state.moveQueue !== prevState.moveQueue)) {
       var that = this;
-      setTimeout(function() {that.setState({moveQueue: moveQ,
-        freezeInput: true})}, 300);
+      setTimeout(function() {
+        that.resolveMove();
+      }, 1000);
 
-    } else if(this.state.freezeInput) {
+    } else if(this.state.freezeInput && (this.state.moveQueue.length === 0)) {
       this.setState({freezeInput: false});
     }
   },
-  resolveMove: function(move) {
+  resolveMove: function() {
+    var tempQueue = this.state.moveQueue.slice();
+    var move = tempQueue.pop();
     console.log("resolving " + move.name);
+    console.log(this.state.players);
+    var player = this.state.players.filter(function(element){
+      return element.handle === move.handle;
+    })[0];
+    var playerIndex = this.state.players.indexOf(player);
+    var newPlayers = this.state.players;
+    if(move.name === "move left") {
+      player.position.x = Math.max(0, player.position.x - 1);
+    } else if(move.name === "move right") {
+      player.position.x = Math.min(this.props.size - 1, player.position.x + 1);
+    } else if(move.name === "move up") {
+      player.position.y = Math.max(0, player.position.y - 1);
+    } else if(move.name === "move down") {
+      player.position.y = Math.min(this.props.size - 1, player.position.y + 1);
+    }
+
+    newPlayers[playerIndex] = player;
+    this.setState({players: newPlayers, freezeInput: true, moveQueue: tempQueue});
   }
 });
