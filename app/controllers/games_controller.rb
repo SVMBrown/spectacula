@@ -1,7 +1,6 @@
 class GamesController < ApplicationController
   include Tubesock::Hijack
 
-  skip_before_filter :login
   def new
     @game = Game.all.select {|game| game.open }.first || Game.create(capacity: 2)
     @game.add_player(current_user)
