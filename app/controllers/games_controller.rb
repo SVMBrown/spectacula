@@ -1,11 +1,11 @@
 class GamesController < ApplicationController
   include Tubesock::Hijack
-
+  $sockets = []
   def new
     puts "entered Controller"
-    openGames = Game.all.select{|g| g && g.open}
+    openGames = [] || Game.all.select{|g| g && g.open}
 
-    @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 2)
+    @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 1)
     puts "Selected game #{@game.id}"
     @game.add_player(current_user)
     puts "added Player"
@@ -19,11 +19,14 @@ class GamesController < ApplicationController
 
   def play
     @game = Game.find(params[:id])
+    $sockets[params[:id].to_i] ||= {}
     hijack do |tube|
       tube.onopen do
-        tube.send_data(JSON.generate({type: "log", name: "#{current_user.handle} joined the channel."}))
+        $sockets[params[:id].to_i].store(current_user.id, tube)
+        broadcast(JSON.generate({type: "log", name: "#{current_user.handle} joined the channel."}))
+        puts tube
         unless @game.open
-          tube.send_data(JSON.generate({type: "setup",
+          broadcast(JSON.generate({type: "setup",
             players: @game.players.map{|p| p.handle},
             maxmoves: 4,
             boardsize: 8}))
@@ -42,7 +45,8 @@ class GamesController < ApplicationController
       end
 
       tube.onclose do
-        tube.send_data(JSON.generate({name: "GAME OVER"}))
+        $sockets[params[:id].to_i].delete(current_user.id)
+        broadcast(JSON.generate({name: "#{current_user.handle} joined the channel."}))
       end
     end
   end
@@ -69,13 +73,18 @@ private
   def check_for_round(tube)
     gameplayers = GamePlayer.where(game_id: params[:id])
     if gameplayers.all? {|gp| !!gp.movelist }
-      tube.send_data generate_round(gameplayers)
+      broadcast generate_round(gameplayers)
       reset_moves(gameplayers)
     end
   end
   def reset_moves(gameplayers)
     gameplayers.each do |gp|
       gp.update(movelist: nil)
+    end
+  end
+  def broadcast(message)
+    $sockets[params[:id].to_i].each_value do |s|
+      s.send_data(message)
     end
   end
 end
