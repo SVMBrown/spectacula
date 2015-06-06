@@ -6,9 +6,6 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body{class: [controller_name + " " + action_name]}
-
-
-
     %header.centered-navigation{:role => "banner"}
       .centered-navigation-wrapper
         %a.mobile-logo{:href => "/landing"}
@@ -68,7 +65,7 @@
     .flashes
       %p.alert= flash[:alert]
       %p.notice= flash[:notice]
-    .main
+    %main
       = yield
 
 

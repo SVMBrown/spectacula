@@ -14,12 +14,11 @@
 @import "login.scss";
 @import "leaderboard.scss";
 
-
-body, html, alert:empty, notice:empty{
+body, html, .alert:empty, .notice:empty {
   margin: 0;
 }
-
 main {
+  height: calc(100% - 67px);
   padding: 0 5%;
 }
 

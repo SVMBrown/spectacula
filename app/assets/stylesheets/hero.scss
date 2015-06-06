@@ -1,4 +1,4 @@
-.hero {
+.landing main {
   $base-border-radius: 3px !default;
   $action-color: #477DCA !default;
   $large-screen: em(860) !default;
@@ -13,7 +13,6 @@
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
-  padding-bottom: 3em;
 
   .hero-logo img {
     height: 4em;
