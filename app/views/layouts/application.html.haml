@@ -49,8 +49,18 @@
                   Logged in as #{current_user.handle}
                   \#{link_to "Log out", :logout, method: :post}
                 - else
-                  = link_to "Sign up", signup_path
-                  \#{link_to "Log in", login_path}
+                  .modal
+                    %label{:for => "modal-1"}
+                      .modal-trigger Sign In/Sign Up
+                    %input#modal-1.modal-state{:type => "checkbox"}/
+                    .modal-fade-screen
+                      .modal-inner
+                        .modal-close{:for => "modal-1"}
+                        %h1 Modal Title
+                        %p.modal-intro Intro text lorem ipsum dolor sit ametm, quas, eaque facilis aliquid cupiditate tempora cumque ipsum accusantium illo modi commodi  minima.
+                        %p.modal-content Body text lorem ipsum dolor ipsum dolor sit sit possimus amet, consectetur adipisicing elit. Itaque, placeat, explicabo, veniam quos aperiam molestias eriam molestias molestiae suscipit ipsum enim quasi sit possimus quod atque nobis voluptas earum odit accusamus quibusdam. Body text lorem ipsum dolor ipsum dolor sit sit possimus amet.
+                  -# = link_to "Sign up", signup_path
+                  -# \#{link_to "Log in", login_path}
 
     -# .navbar
     -#   = link_to "Play Now", new_game_path
