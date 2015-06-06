@@ -6,10 +6,11 @@
 
 @import "bourbon";
 @import "base/base";
+@import "base/grid-settings";
 @import "neat";
 
-@import "header.scss";
-@import "hero.scss";
+@import "header";
+@import "hero";
 @import "login.scss";
 @import "leaderboard.scss";
 
@@ -20,6 +21,7 @@ main {
   height: calc(100% - 67px);
   padding: 0 5%;
 }
+
 // .navbar:before {
 //   content: '\A';
 //   display: relative;
