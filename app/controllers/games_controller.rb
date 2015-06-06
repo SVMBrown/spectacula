@@ -3,9 +3,9 @@ class GamesController < ApplicationController
 
   def new
     puts "entered Controller"
-    openGames = Game.all.select{|g| g && g.open}
+    openGames = [] || Game.all.select{|g| g && g.open}
 
-    @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 2)
+    @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 1)
     puts "Selected game #{@game.id}"
     @game.add_player(current_user)
     puts "added Player"
@@ -21,7 +21,14 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     hijack do |tube|
       tube.onopen do
-        tube.send_data(JSON.generate({name: "BEGIN"}))
+        tube.send_data(JSON.generate({type: "log", name: "#{current_user.handle} joined the channel."}))
+        unless @game.open
+          tube.send_data(JSON.generate({type: "setup",
+            players: @game.players.map{|p| p.handle},
+            maxmoves: 4,
+            boardsize: 8}))
+        end
+
       end
 
       tube.onmessage do |data|
@@ -43,7 +50,10 @@ private
   def generate_round(gameplayers)
     round = []
     moves = gameplayers.map do |gp|
-      JSON.parse(gp.movelist)
+      JSON.parse(gp.movelist).map do |move|
+        move.store(:handle, gp.player.handle)
+        move
+      end
     end
     until moves.all? {|move| move.empty? }
       moves.each do |m|
@@ -51,7 +61,7 @@ private
       end
     end
     puts "Sending #{round}"
-    JSON.generate({"type" => "round", "name" => "round message", "data" => round})
+    JSON.generate({"type" => "round", "name" => "round message", "roundQueue" => round})
   end
   def record_move(obj)
     GamePlayer.where(player_id: current_user, game_id: params[:id]).take.update(movelist: JSON.generate(obj))

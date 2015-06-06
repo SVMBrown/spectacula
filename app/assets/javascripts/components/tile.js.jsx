@@ -1,6 +1,6 @@
 var Tile = React.createClass({
   getStyle: function () {
-    return {color: this.props.occupant};
+    return {backgroundColor: this.props.occupant};
   },
   render: function () {
     return(
