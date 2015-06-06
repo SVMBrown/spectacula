@@ -1,4 +1,3 @@
-
 %center
   %h1
   %h1
@@ -23,6 +22,6 @@
         %td{"data-th" => "Games Played"}
           =user.total_games
         %td{"data-th" => "Win Rate"}
-          =user.win_rate
+          ="#{((user.win_rate * 100000).to_i)/1000.0}%"
 
 
