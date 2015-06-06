@@ -5,7 +5,7 @@ class GamesController < ApplicationController
     puts "entered Controller"
     openGames = [] || Game.all.select{|g| g && g.open}
 
-    @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 1)
+    @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 2)
     puts "Selected game #{@game.id}"
     @game.add_player(current_user)
     puts "added Player"
