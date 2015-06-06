@@ -46,11 +46,11 @@
             %li.nav-link
               %a.userinfo
                 - if current_user
-                  Logged in as #{current_user.handle}.
+                  Logged in as #{current_user.handle}
                   \#{link_to "Log out", :logout, method: :post}
                 - else
                   = link_to "Sign up", signup_path
-                  \#{link_to "Log in", login_path}.
+                  \#{link_to "Log in", login_path}
 
     -# .navbar
     -#   = link_to "Play Now", new_game_path
