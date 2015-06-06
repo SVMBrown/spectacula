@@ -2,12 +2,16 @@ class GamesController < ApplicationController
   include Tubesock::Hijack
 
   def new
+    puts "entered Controller"
     @game = Game.all.select {|game| game.open }.first || Game.create(capacity: 2)
+    puts "Selected game #{@game.id}"
     @game.add_player(current_user)
+    puts "added Player"
     redirect_to game_path(@game)
   end
 
   def show
+    puts "show controller"
     @game = Game.find(params[:id])
   end
 
