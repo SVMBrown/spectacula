@@ -12,7 +12,6 @@ i.e. 2 ppl and murder
 * Matchmaking/game creation/termination
 
 #### Roadmap
-- dummy state (react) for board to rely on/better board rendering. (implement flux for input modelling).
 - update game model with rounds list and gameplayer model with pending moves
   - front end should have a round # and should be able to compute state based on list
 - place dummy functions on either side that tie player/session to db and listen for round completion/handle round completion
