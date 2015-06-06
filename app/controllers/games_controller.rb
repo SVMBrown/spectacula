@@ -3,7 +3,7 @@ class GamesController < ApplicationController
 
   def new
     puts "entered Controller"
-    @game = Game.all.select {|game| game.open }.first || Game.create(capacity: 2)
+    @game = Game.create(capacity: 2)
     puts "Selected game #{@game.id}"
     @game.add_player(current_user)
     puts "added Player"
