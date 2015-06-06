@@ -1,14 +1,19 @@
 class GamesController < ApplicationController
   include Tubesock::Hijack
 
-  skip_before_filter :login
   def new
-    @game = Game.all.select {|game| game.open }.first || Game.create(capacity: 2)
+    puts "entered Controller"
+    openGames = Game.all.select{|g| g && g.open}
+
+    @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 2)
+    puts "Selected game #{@game.id}"
     @game.add_player(current_user)
+    puts "added Player"
     redirect_to game_path(@game)
   end
 
   def show
+    puts "show controller"
     @game = Game.find(params[:id])
   end
 

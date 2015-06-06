@@ -1,14 +1,15 @@
-
 %center
-  .page-title
+  %h1
+  %h1
     Leaderboards
-  %table.rwd-table
-    %tr
-      %th User
-      %th Wins
-      %th Losses
-      %th Games Played
-      %th Win Rate
+  %table{:class => "tables"}
+    %thead
+      %tr
+        %th User
+        %th Wins
+        %th Losses
+        %th Games Played
+        %th Win Rate
     -@users.sort{|a, b| a.total_wins <=> b.total_wins}
     -@users.each do | user |
       %tr
@@ -21,6 +22,6 @@
         %td{"data-th" => "Games Played"}
           =user.total_games
         %td{"data-th" => "Win Rate"}
-          =user.win_rate
+          ='%02f' % (user.win_rate * 100) + '%'
 
 
