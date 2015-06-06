@@ -6,10 +6,7 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body{class: [controller_name + " " + action_name]}
-    %p.alert
-      = flash[:alert]
-    %p.notice
-      = flash[:notice]
+
 
 
     %header.centered-navigation{:role => "banner"}
@@ -68,7 +65,10 @@
     -#     - else
     -#       = link_to "Sign up", signup_path
     -#       \#{link_to "Log in", login_path}.
-
-    = yield
+    .flashes
+      %p.alert= flash[:alert]
+      %p.notice= flash[:notice]
+    .main
+      = yield
 
 
