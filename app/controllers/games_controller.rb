@@ -80,7 +80,9 @@ private
       end
     end
     puts "Sending #{round}"
-    JSON.generate({"type" => "round", "name" => "round message", "roundQueue" => round, "gameState" => JSON.parse(Game.find(params[:id]).state)})
+    message = {"type" => round, "name" => "round message", "roundQueue" => round}
+    message.store("gameState", JSON.parse(Game.find(params[:id]).state)) if Game.find(params[:id]).state
+    JSON.generate({"type" => "round", "name" => "round message", "roundQueue" => round})
   end
   def record_move(obj)
     GamePlayer.where(player_id: current_user, game_id: params[:id]).take.update(movelist: JSON.generate(obj))
