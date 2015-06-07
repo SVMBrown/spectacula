@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150602150018) do
 
   create_table "users", force: :cascade do |t|
     t.string   "handle"
+    t.string   "name",
     t.string   "email",                           null: false
     t.string   "crypted_password"
     t.string   "salt"
