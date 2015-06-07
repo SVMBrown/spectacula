@@ -1,27 +1,34 @@
 %h1= @user.handle
 %h1= @user.email
 = image_tag @user.avatar.url(:thumb)
+%br
+%a{:href => edit_user_path} Edit Profile
 
+/ = link_to "Add Friend", friendships_path(:friend_id => user), :method => :post
+
+/ %h2 Friends
+/ %ul
+/   - for friendship in @user.friendships
+/     %li
+/       = h friendship.friend.username
+/       (#{link_to "remove", friendship, :method => :delete})
+/ %p= link_to "Find Friends", users_path
+
+- @user.comments.order("created_at desc").each do |comment|
+  %p
+  = comment
+  %br/
 
 - if current_user
   %h4 New Comment
-= form_for([@user, @comment]) do |f|
-  - if @comment.errors.any?
-  #error_explanation
-  %h2
-    = pluralize(@comment.errors.count, "error")
-      Comment could not be submitted.
-%ul
-  - @comment.errors.full_messages.each do |msg|
-%li= msg
-  .field
-    = f.label :comment
-%br/
-  = f.text_area :comment
-.actions
-  = f.submit
+  = form_for([@user, @comment]) do |f|
+    .field
+      = f.label :comment
+      %br/
+      = f.text_area :comment
+    .actions
+      = f.submit
 - else
-%p
-  Please #{link_to "log in", new_session_path} to add a comment.
-\.
-\.
+  %p
+    Please #{link_to "log in", new_session_path} to add a comment.
+

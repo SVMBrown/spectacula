@@ -5,7 +5,13 @@ class UsersController < ApplicationController
   end
 
   def edit
-    user = edit(params[:email], params[:gender], params[:location], params[:bio], params[:name])
+    @user = User.find(params[:id])
+  end
+
+ def update
+    @user = User.find(params[:id])
+    @user.update_attributes(params[:user])
+    respond_with @user
   end
 
   def create
