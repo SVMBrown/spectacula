@@ -2,18 +2,23 @@ class GamesController < ApplicationController
   include Tubesock::Hijack
   $sockets = []
   def new
-    puts "entered Controller"
+    puts "entered Game#new"
     openGames = Game.all.select{|g| g && g.open}
 
     @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 2)
-    puts "Selected game #{@game.id}"
+    if(openGames.length >= 1)
+      puts "Selected game #{@game.id}"
+    else
+      puts "Created game #{@game.id}"
+    end
+
     @game.add_player(current_user)
-    puts "added Player"
+    puts "added player"
     redirect_to game_path(@game)
   end
 
   def show
-    puts "show controller"
+    puts "entered Game#show"
     @game = Game.find(params[:id])
   end
 
