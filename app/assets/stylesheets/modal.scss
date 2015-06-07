@@ -41,9 +41,10 @@
     @include position(fixed, 0px 0px 0px 0px);
     background: rgba(0,0,0, 0.85);
     opacity: 0;
-    padding-top: 0.6em;
+    padding-top: 2em;
     text-align: left;
     visibility: hidden;
+    height: 100%;
     z-index: 99999999999;
 
     @include media($large-screen) {
@@ -124,9 +125,9 @@
     .modal-content {
       color: $base-font-color;
 
-      @include media($medium-screen) {
-        @include columns(2 8em);
-      }
+      // @include media($medium-screen) {
+      //   @include columns(2 8em);
+      // }
     }
 
     a.cta {
