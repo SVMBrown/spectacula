@@ -7,7 +7,7 @@ class Game < ActiveRecord::Base
     end
   end
   def add_player(player)
-    GamePlayer.where(player_id: player.id, game_id: id).take || GamePlayer.create(player_id: player.id, game_id: id)
+    GamePlayer.where(player_id: player.id, game_id: id).take || GamePlayer.create(player_id: player.id, game_id: id, order: GamePlayer.where(game_id: id).count)
   end
   def open
     puts players.count

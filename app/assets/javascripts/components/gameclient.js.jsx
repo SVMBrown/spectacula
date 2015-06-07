@@ -15,13 +15,15 @@ var GameClient = React.createClass({
     return {
         pendingMoves: [],
         players: this.props.players.map(function(elem, i) {
+          var player = {};
           return {
-            handle: elem,
-            color: that.props.colors[i],
-            position: that.props.positions[i]
+            handle: elem.handle || elem,
+            color: elem.color || that.props.colors[i],
+            position: elem.position || that.props.positions[i]
           };
         }),
         moveQueue: [],
+        round: 0,
         freezeInput: false
       }
   },
@@ -34,6 +36,10 @@ var GameClient = React.createClass({
     );
   },
   commitMoves: function() {
+    var moves = this.state.pendingMoves;
+    while(moves.length < this.props.max) {
+      moves.unshift({type: "move", name: "do nothing"});
+    }
     this.props.websocket.send(commitMessage(this.state.pendingMoves));
     this.setState({pendingMoves: []});
   },
@@ -48,10 +54,15 @@ var GameClient = React.createClass({
   },
   handleMessage: function (message) {
     console.log("handling " + message.name);
-    var newQ = this.state.moveQueue;
-    if(message.type === "round")
+    if(message.type === "round") {
+      var newQ = this.state.moveQueue;
+      var checkState = message.gameState;
+      if(checkState.round !== this.state.round || checkState.players !== this.state.players) {
+        this.setState({round: checkState.round, players: checkState.players});
+      }
       newQ = message.roundQueue;
-    this.setState({moveQueue: newQ});
+      this.setState({moveQueue: newQ});
+    }
   },
   componentDidMount: function () {
     var that = this;
@@ -67,7 +78,8 @@ var GameClient = React.createClass({
       }, 1000);
 
     } else if(this.state.freezeInput && (this.state.moveQueue.length === 0)) {
-      this.setState({freezeInput: false});
+      this.setState({freezeInput: false, round: (this.state.round + 1)});
+      this.props.websocket.send(JSON.stringify({name: ("round " + this.state.round), type: "game state", round: this.state.round, players: this.state.players}));
     }
   },
   resolveMove: function() {
@@ -88,6 +100,8 @@ var GameClient = React.createClass({
       player.position.y = Math.max(0, player.position.y - 1);
     } else if(move.name === "move down") {
       player.position.y = Math.min(this.props.size - 1, player.position.y + 1);
+    } else {
+      console.log(move.handle + "did nothing, or used invalid move");
     }
 
     newPlayers[playerIndex] = player;

@@ -26,10 +26,14 @@ class GamesController < ApplicationController
         broadcast(JSON.generate({type: "log", name: "#{current_user.handle} joined the channel."}))
         puts tube
         unless @game.open
-          broadcast(JSON.generate({type: "setup",
-            players: @game.players.map{|p| p.handle},
-            maxmoves: 4,
-            boardsize: 8}))
+          if @game.state
+            broadcast(@game.state)
+          else
+            broadcast(JSON.generate({type: "setup",
+              players: @game.players.sort_by { |e| e.game_players.where(game_id: params[:id]).first.order }.map{|p| p.handle},
+              maxmoves: 4,
+              boardsize: 8}))
+          end
         end
 
       end
@@ -41,12 +45,18 @@ class GamesController < ApplicationController
           puts "commit"
           record_move(message["moves"])
           check_for_round(tube)
+        elsif message["type"] == "game state"
+          unless @game.state && JSON.parse(@game.state)["round"].to_i > message["round"].to_i
+            @game.update(state: JSON.generate(message))
+          end
         end
       end
 
       tube.onclose do
-        $sockets[params[:id].to_i].delete(current_user.id)
-        broadcast(JSON.generate({name: "#{current_user.handle} joined the channel."}))
+        if $sockets[params[:id].to_i]
+          broadcast(JSON.generate({name: "#{current_user.handle} joined the channel."}))
+          $sockets[params[:id].to_i].delete(current_user.id)
+        end
       end
     end
   end
@@ -65,7 +75,7 @@ private
       end
     end
     puts "Sending #{round}"
-    JSON.generate({"type" => "round", "name" => "round message", "roundQueue" => round})
+    JSON.generate({"type" => "round", "name" => "round message", "roundQueue" => round, "gameState" => JSON.parse(Game.find(params[:id]).state)})
   end
   def record_move(obj)
     GamePlayer.where(player_id: current_user, game_id: params[:id]).take.update(movelist: JSON.generate(obj))

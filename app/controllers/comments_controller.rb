@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
   def create
     @comment = @comment.comments.build(comment_params)
     @commentuser = current_user
-   if @comment.save
+    if @comment.save
       redirect_to users_show_path, notice: 'Comment submitted!'
     else
       render 'users/show'
