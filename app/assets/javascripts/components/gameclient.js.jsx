@@ -57,7 +57,7 @@ var GameClient = React.createClass({
     if(message.type === "round") {
       var newQ = this.state.moveQueue;
       var checkState = message.gameState;
-      if(checkState.round !== this.state.round || checkState.players !== this.state.players) {
+      if(checkState && (checkState.round !== this.state.round || checkState.players !== this.state.players)) {
         this.setState({round: checkState.round, players: checkState.players});
       }
       newQ = message.roundQueue;
