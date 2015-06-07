@@ -6,7 +6,7 @@ var MovesList = React.createClass({
     }
     return(
      <ol>
-      {moves.map(function(elem){return(<li> {elem.name} </li>)})}
+      {moves.map(function(elem, i){return(<li key={i}> {elem.name} </li>)})}
     </ol>);
   }
 });

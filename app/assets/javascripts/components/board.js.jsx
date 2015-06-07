@@ -16,9 +16,9 @@ var Board = React.createClass({
           rows.push((function (y) {
             var row = [];
             for(var x = 0; x < 8; x++) {
-              row.push(<Tile x={x} y={y} occupant={that.playerAt(x, y)} />);
+              row.push(<Tile key={x} x={x} y={y} occupant={that.playerAt(x, y)} />);
             }
-            return (<tr>{row}</tr>);
+            return (<tr key={y}>{row}</tr>);
           })(y));
         }
         return (

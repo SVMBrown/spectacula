@@ -23,7 +23,7 @@ var GameClient = React.createClass({
           };
         }),
         moveQueue: [],
-        round: 0,
+        round: this.props.round || 0,
         freezeInput: false
       }
   },
@@ -32,6 +32,10 @@ var GameClient = React.createClass({
       <div>
         <Board {...this.props} moves={this.state.moveQueue} players={this.state.players} />
         <HUD {...this.props} moves={this.state.pendingMoves} load={this.loadMove} commit={this.commitMoves} />
+        <p> round: {this.state.round} </p>
+        <dl>
+          {this.state.players.map(function(elem, i){return(<div key={i}><dt>{elem.handle}</dt><dd style={{backgroundColor: elem.color}}>{elem.color}</dd></div>);})}
+        </dl>
       </div>
     );
   },
@@ -78,8 +82,9 @@ var GameClient = React.createClass({
       }, 1000);
 
     } else if(this.state.freezeInput && (this.state.moveQueue.length === 0)) {
-      this.props.websocket.send(JSON.stringify({name: ("round " + this.state.round), type: "game state", round: (this.state.round + 1), players: this.state.players}));
-      this.setState({freezeInput: false, round: (this.state.round + 1)});
+      var newRound = this.state.round + 1;
+      this.props.websocket.send(JSON.stringify({name: ("round " + newRound), type: "game state", round: newRound, players: this.state.players}));
+      this.setState({freezeInput: false, round: newRound});
     }
   },
   resolveMove: function() {

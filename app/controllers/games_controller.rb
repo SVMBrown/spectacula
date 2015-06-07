@@ -27,7 +27,7 @@ class GamesController < ApplicationController
     $sockets[params[:id].to_i] ||= {}
     hijack do |tube|
       tube.onopen do
-        $sockets[params[:id].to_i].store(current_user.id, tube)
+        $sockets[params[:id].to_i].store(tube, current_user.id)
         broadcast(JSON.generate({type: "log", name: "#{current_user.handle} joined the channel."}))
         puts tube
         unless @game.open
@@ -51,7 +51,7 @@ class GamesController < ApplicationController
           record_move(message["moves"])
           check_for_round(tube)
         elsif message["type"] == "game state"
-          unless @game.state && JSON.parse(@game.state)["round"].to_i > message["round"].to_i
+          if !@game.state || JSON.parse(@game.state)["round"].to_i < message["round"].to_i
             @game.update(state: JSON.generate(message))
           end
         end
@@ -59,8 +59,8 @@ class GamesController < ApplicationController
 
       tube.onclose do
         if $sockets[params[:id].to_i]
-          broadcast(JSON.generate({name: "#{current_user.handle} joined the channel."}))
-          $sockets[params[:id].to_i].delete(current_user.id)
+          broadcast(JSON.generate({name: "#{current_user.handle} left the channel."}))
+          $sockets[params[:id].to_i].delete(tube)
         end
       end
     end
@@ -100,7 +100,7 @@ private
     end
   end
   def broadcast(message)
-    $sockets[params[:id].to_i].each_value do |s|
+    $sockets[params[:id].to_i].each_key do |s|
       s.send_data(message)
     end
   end
