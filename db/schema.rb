@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603212606) do
+ActiveRecord::Schema.define(version: 20150607012708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 20150603212606) do
     t.datetime "updated_at", null: false
     t.integer  "user_id"
   end
+
+  create_table "conversations", force: :cascade do |t|
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "conversations", ["recipient_id"], name: "index_conversations_on_recipient_id", using: :btree
+  add_index "conversations", ["sender_id"], name: "index_conversations_on_sender_id", using: :btree
 
   create_table "friendships", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -42,6 +52,17 @@ ActiveRecord::Schema.define(version: 20150603212606) do
     t.datetime "updated_at", null: false
     t.integer  "capacity"
   end
+
+  create_table "messages", force: :cascade do |t|
+    t.text     "body"
+    t.integer  "conversation_id"
+    t.integer  "user_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
+  add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
   create_table "profiles", force: :cascade do |t|
     t.integer  "user_id"
@@ -79,5 +100,7 @@ ActiveRecord::Schema.define(version: 20150603212606) do
   add_index "users", ["remember_me_token"], name: "index_users_on_remember_me_token", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", using: :btree
 
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "users"
   add_foreign_key "profiles", "users"
 end

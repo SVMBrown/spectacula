@@ -2,14 +2,6 @@ Rails.application.routes.draw do
 
 
 
-  get 'friendship/user_id:integer'
-
-  get 'friendship/friend_id:integer'
-
-  get 'friendship/create'
-
-  get 'friendship/destroy'
-
   resources :password_resets, only: [:edit, :create, :update, :new]
   resources :user_sessions, only: [:new, :create, :destroy]
   resources :users, only: [:new, :create, :show] do 
