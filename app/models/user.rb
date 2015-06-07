@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
-  belongs_to :user
+
 
   validates :email, :handle, :name, uniqueness: true, presence: true
   validates :password, confirmation: true
