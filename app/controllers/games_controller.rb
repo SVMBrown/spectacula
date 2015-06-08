@@ -2,18 +2,23 @@ class GamesController < ApplicationController
   include Tubesock::Hijack
   $sockets = []
   def new
-    puts "entered Controller"
+    puts "entered Game#new"
     openGames = Game.all.select{|g| g && g.open}
 
     @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 2)
-    puts "Selected game #{@game.id}"
+    if(openGames.length >= 1)
+      puts "Selected game #{@game.id}"
+    else
+      puts "Created game #{@game.id}"
+    end
+
     @game.add_player(current_user)
-    puts "added Player"
+    puts "added player"
     redirect_to game_path(@game)
   end
 
   def show
-    puts "show controller"
+    puts "entered Game#show"
     @game = Game.find(params[:id])
   end
 
@@ -22,14 +27,20 @@ class GamesController < ApplicationController
     $sockets[params[:id].to_i] ||= {}
     hijack do |tube|
       tube.onopen do
-        $sockets[params[:id].to_i].store(current_user.id, tube)
+        $sockets[params[:id].to_i].store(tube, current_user.id)
         broadcast(JSON.generate({type: "log", name: "#{current_user.handle} joined the channel."}))
         puts tube
         unless @game.open
-          broadcast(JSON.generate({type: "setup",
-            players: @game.players.map{|p| p.handle},
-            maxmoves: 4,
-            boardsize: 8}))
+          if @game.winner_id
+            tube.send_data(JSON.generate({type: "winner", winner: User.find(@game.winner_id).handle}))
+          elsif @game.state
+            tube.send_data(@game.state)
+          else
+            tube.send_data(JSON.generate({type: "setup",
+              players: @game.players.sort_by { |e| e.game_players.where(game_id: params[:id]).first.order }.map{|p| p.handle},
+              maxmoves: 4,
+              boardsize: 8}))
+          end
         end
 
       end
@@ -37,16 +48,27 @@ class GamesController < ApplicationController
       tube.onmessage do |data|
         message = JSON.parse(data)
         puts message
-        if message["type"] == "commit"
+        if message["type"] == "winner"
+          broadcast(JSON.generate(message))
+          @game.update(winner_id: @game.players.find_by(handle: message["winner"]).id) unless @game.winner_id
+          notice = "#{User.find(@game.winner_id).handle} won!"
+          puts notice
+        elsif message["type"] == "commit"
           puts "commit"
           record_move(message["moves"])
           check_for_round(tube)
+        elsif message["type"] == "game state"
+          if !@game.state || JSON.parse(@game.state)["round"].to_i < message["round"].to_i
+            @game.update(state: JSON.generate(message))
+          end
         end
       end
 
       tube.onclose do
-        $sockets[params[:id].to_i].delete(current_user.id)
-        broadcast(JSON.generate({name: "#{current_user.handle} joined the channel."}))
+        if $sockets[params[:id].to_i]
+          broadcast(JSON.generate({name: "#{current_user.handle} left the channel."}))
+          $sockets[params[:id].to_i].delete(tube)
+        end
       end
     end
   end
@@ -65,6 +87,8 @@ private
       end
     end
     puts "Sending #{round}"
+    message = {"type" => round, "name" => "round message", "roundQueue" => round}
+    message.store("gameState", JSON.parse(Game.find(params[:id]).state)) if Game.find(params[:id]).state
     JSON.generate({"type" => "round", "name" => "round message", "roundQueue" => round})
   end
   def record_move(obj)
@@ -83,7 +107,7 @@ private
     end
   end
   def broadcast(message)
-    $sockets[params[:id].to_i].each_value do |s|
+    $sockets[params[:id].to_i].each_key do |s|
       s.send_data(message)
     end
   end
