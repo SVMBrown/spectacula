@@ -31,10 +31,12 @@ class GamesController < ApplicationController
         broadcast(JSON.generate({type: "log", name: "#{current_user.handle} joined the channel."}))
         puts tube
         unless @game.open
-          if @game.state
-            broadcast(@game.state)
+          if @game.winner_id
+            tube.send_data(JSON.generate({type: "winner", winner: User.find(@game.winner_id).handle}))
+          elsif @game.state
+            tube.send_data(@game.state)
           else
-            broadcast(JSON.generate({type: "setup",
+            tube.send_data(JSON.generate({type: "setup",
               players: @game.players.sort_by { |e| e.game_players.where(game_id: params[:id]).first.order }.map{|p| p.handle},
               maxmoves: 4,
               boardsize: 8}))
@@ -46,7 +48,12 @@ class GamesController < ApplicationController
       tube.onmessage do |data|
         message = JSON.parse(data)
         puts message
-        if message["type"] == "commit"
+        if message["type"] == "winner"
+          broadcast(JSON.generate(message))
+          @game.update(winner_id: @game.players.find_by(handle: message["winner"]).id) unless @game.winner_id
+          notice = "#{User.find(@game.winner_id).handle} won!"
+          puts notice
+        elsif message["type"] == "commit"
           puts "commit"
           record_move(message["moves"])
           check_for_round(tube)

@@ -8,7 +8,9 @@ var commitMessage = function(moves) {
 var setupWS = function (ws) {
   ws.onmessage = function(e) {
     var message = JSON.parse(e.data);
-    if(message.type === "setup" || message.type === "game state") {
+    if(message.type === "winner") {
+      React.render(React.createElement(GameClient, {winner: message.winner, players: [], websocket: ws}), $('div#container')[0]);
+    } else if(message.type === "setup" || message.type === "game state") {
       React.render(React.createElement(GameClient, {websocket: ws, players: message.players, round: message.round || 0, maxmoves: message.maxmoves, size: message.boardsize}), $('div#container')[0]);
     }
   };
