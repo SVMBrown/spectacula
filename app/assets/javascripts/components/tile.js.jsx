@@ -4,7 +4,6 @@ var Tile = React.createClass({
     var that = this;
     if(this.props.highlight({x: that.props.x, y: that.props.y})) {
       style.backgroundColor = 'yellow';
-      console.log("highlighted");
     }
     style.color = this.props.occupant;
     return style;

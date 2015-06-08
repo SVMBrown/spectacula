@@ -47,7 +47,7 @@ var GameClient = React.createClass({
         round: this.props.round || 0,
         freezeInput: false,
         winner: this.props.winner || null,
-        highlight: function(){console.log("initial state function"); return false;}
+        highlight: function(){ return false;}
       };
   },
   // On Creation of the element, set up message listener (just feeds parsed messages to the router above)
@@ -127,7 +127,7 @@ var GameClient = React.createClass({
     }
   },
   resolveMove: function() {
-    var squareIsAttacked = function(){console.log("reset state function"); return false;};
+    var squareIsAttacked = function(){ return false;};
     var attackFlag = false;
     var tempQueue = this.state.moveQueue.slice();
     var move = tempQueue.pop();
@@ -153,7 +153,6 @@ var GameClient = React.createClass({
       var tmpy = player.position.y;
       attackFlag = true;
       squareIsAttacked = function(pos) {
-        console.log("checking attacked");
         return(pos.y == tmpy && pos.x < tmpx);
       };
     } else if(move.name === "attack right") {
@@ -161,7 +160,6 @@ var GameClient = React.createClass({
       var tmpy = player.position.y;
       attackFlag = true;
       squareIsAttacked = function(pos) {
-        console.log("checking attacked");
         return(pos.y == tmpy && pos.x > tmpx);
       };
     } else if(move.name === "attack up") {
@@ -169,7 +167,6 @@ var GameClient = React.createClass({
       var tmpy = player.position.y;
       attackFlag = true;
       squareIsAttacked = function(pos) {
-        console.log("checking attacked");
         return(pos.x == tmpx && pos.y < tmpy);
       };
     } else if(move.name === "attack down") {
@@ -177,11 +174,9 @@ var GameClient = React.createClass({
       var tmpy = player.position.y;
       attackFlag = true;
       squareIsAttacked = function(pos) {
-        console.log("checking attacked");
         return(pos.x == tmpx && pos.y > tmpy);
       };
     } else {
-      console.log(move.handle + "did nothing, or used invalid move");
     }
 
     if(attackFlag) {
