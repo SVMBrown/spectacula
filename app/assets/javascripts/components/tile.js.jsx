@@ -11,7 +11,7 @@ var Tile = React.createClass({
   },
   render: function () {
     return(
-      <td style={this.getStyle()}> {this.props.x}, {this.props.y} </td>
+      <td className="tile" style={this.getStyle()}> {this.props.x}, {this.props.y} </td>
     )
   }
 });

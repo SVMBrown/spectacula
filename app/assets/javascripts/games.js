@@ -14,9 +14,9 @@ var setupWS = function (ws) {
       React.render(React.createElement(GameClient, {websocket: ws, players: message.players, round: message.round || 0, maxmoves: message.maxmoves, size: message.boardsize}), $('div#container')[0]);
     }
   };
-  ws.addEventListener('message', function(e) {
-    console.log(JSON.parse(e.data));
-  })
+  // ws.addEventListener('message', function(e) {
+  //   console.log(JSON.parse(e.data));
+  // })
 }
 var ready = function () {
   var body = document.getElementsByTagName('body')[0];

@@ -29,7 +29,6 @@ class GamesController < ApplicationController
       tube.onopen do
         $sockets[params[:id].to_i].store(tube, current_user.id)
         broadcast(JSON.generate({type: "log", name: "#{current_user.handle} joined the channel."}))
-        puts tube
         unless @game.open
           if @game.winner_id
             tube.send_data(JSON.generate({type: "winner", winner: User.find(@game.winner_id).handle}))
@@ -47,14 +46,11 @@ class GamesController < ApplicationController
 
       tube.onmessage do |data|
         message = JSON.parse(data)
-        puts message
         if message["type"] == "winner"
           broadcast(JSON.generate(message))
           @game.update(winner_id: @game.players.find_by(handle: message["winner"]).id) unless @game.winner_id
           notice = "#{User.find(@game.winner_id).handle} won!"
-          puts notice
         elsif message["type"] == "commit"
-          puts "commit"
           record_move(message["moves"])
           check_for_round(tube)
         elsif message["type"] == "game state"
