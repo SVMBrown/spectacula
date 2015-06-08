@@ -1,30 +1,13 @@
-
-= form_for @user do |f|
-  - if @user.errors.any?
-    .error_messages
-      %h2 Form is invalid
-      %ul
-        - for message in @user.errors.full_messages
-          %li= message
-
+%h1 Sign Up!
+= simple_form_for @user do |f|
   .form-wrapper
-    %h1 Sign Up
-    .field
-      = f.label :handle
-      = f.text_field :handle
-    .field
-      = f.label :email
-      = f.text_field :email
-    .field
-      = f.label :password
-      = f.password_field :password
-    .field
-      = f.label :password_confirmation
-      = f.password_field :password_confirmation
-    / .field
-    /   = f.label :avatar
-    /   = f.file_field :avatar
-    .button-panel
-      %input.button{:title => "Sign up", :type => "Submit", :value => "Sign up"}
-    .form-footer
+    =f.input :handle
+    =f.input :email
+    =f.input :password
+    =f.input :password_confirmation
+    =f.input :avatar
+    =f.input :bio
+  .button-panel
+    =f.submit
+
 

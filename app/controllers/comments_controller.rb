@@ -6,12 +6,11 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = @comment.comments.build(comment_params)
-    @commentuser = current_user
+    @comment = Comment.new(comment_params)
     if @comment.save
-      redirect_to users_show_path, notice: 'Comment submitted!'
+      redirect_to user_path(@comment.subject_id), notice: 'Comment submitted!'
     else
-      render 'users/show'
+      redirect_to user_path(@comment.subject_id)
     end
   end
 
@@ -22,7 +21,7 @@ class CommentsController < ApplicationController
 
   private
   def comment_params
-    params.require(:comment).permit(:comment, :username)
+    params.require(:comment).permit(:comment, :author_id, :subject_id)
   end
 
 end
