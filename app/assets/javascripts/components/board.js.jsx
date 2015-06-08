@@ -2,7 +2,7 @@ var Board = React.createClass({
     playerAt: function (x, y) {
       occupants = this.props.players.filter(function(elem){return(elem.position.x === x && elem.position.y === y)});
       if(occupants.length === 0) {
-        return 'white';
+        return 'black';
       } else if (occupants.length === 1) {
         return occupants[0].color;
       } else {
@@ -16,7 +16,7 @@ var Board = React.createClass({
           rows.push((function (y) {
             var row = [];
             for(var x = 0; x < 8; x++) {
-              row.push(<Tile key={x} x={x} y={y} occupant={that.playerAt(x, y)} />);
+              row.push(<Tile {...that.props} key={x} x={x} y={y} occupant={that.playerAt(x, y)} />);
             }
             return (<tr key={y}>{row}</tr>);
           })(y));

@@ -27,7 +27,8 @@ var GameClient = React.createClass({
         moveQueue: [],
         round: this.props.round || 0,
         freezeInput: false,
-        winner: this.props.winner || null
+        winner: this.props.winner || null,
+        highlight: function(){console.log("initial state function"); return false;}
       };
   },
   render: function(){
@@ -36,7 +37,7 @@ var GameClient = React.createClass({
     } else {
       return (
         <div>
-          <Board {...this.props} moves={this.state.moveQueue} players={this.state.players} />
+          <Board {...this.props} moves={this.state.moveQueue} players={this.state.players} highlight={this.state.highlight} />
           <HUD {...this.props} moves={this.state.pendingMoves} load={this.loadMove} commit={this.commitMoves} clearMoves={this.clearMoves} />
           <p> round: {this.state.round} </p>
           <dl>
@@ -87,6 +88,7 @@ var GameClient = React.createClass({
     }
   },
   componentDidUpdate: function (prevProps, prevState) {
+    console.log(this.state.highlight({x: 0, y: 0}));
     if(this.state.winner && !prevState.winner) {
       this.props.websocket.send(JSON.stringify({name: ("winner is " + this.state.winner), type: "winner", winner: this.state.winner}));
     } else if(this.state.moveQueue.length && (this.state.moveQueue !== prevState.moveQueue)) {
@@ -94,14 +96,20 @@ var GameClient = React.createClass({
       setTimeout(function() {
         that.resolveMove();
       }, 1000);
-
+    } else if(this.state.moveQueue !== prevState.moveQueue) {
+      var that = this;
+      setTimeout(function() {
+        that.setState({highlight: (function(){console.log("reset state function"); return false;})});
+      }, 1000);
     } else if(this.state.freezeInput && (this.state.moveQueue.length === 0)) {
       var newRound = this.state.round + 1;
       this.props.websocket.send(JSON.stringify({name: ("round " + newRound), type: "game state", round: newRound, players: this.state.players}));
-      this.setState({freezeInput: false, round: newRound});
+      this.setState({freezeInput: false, round: newRound, highlight: (function(){console.log("reset state function"); return false;})});
     }
   },
   resolveMove: function() {
+    var squareIsAttacked = function(){console.log("reset state function"); return false;};
+    var attackFlag = false;
     var tempQueue = this.state.moveQueue.slice();
     var move = tempQueue.pop();
     console.log("resolving " + move.name);
@@ -124,39 +132,52 @@ var GameClient = React.createClass({
       player.position.y = Math.min(this.props.size - 1, player.position.y + 1);
       newPlayers[playerIndex] = player;
     } else if(move.name === "attack left") {
-      newPlayers = newPlayers.map(function(target) {
-        if(target.position.y === player.position.y && target.position.x < player.position.x){
-          target.health -= 1;
-        }
-        return target;
-      });
+      var tmpx = player.position.x;
+      var tmpy = player.position.y;
+      attackFlag = true;
+      squareIsAttacked = function(pos) {
+        console.log("checking attacked");
+        return(pos.y == tmpy && pos.x < tmpx);
+      };
     } else if(move.name === "attack right") {
-      newPlayers = newPlayers.map(function(target) {
-        if(target.position.y === player.position.y && target.position.x > player.position.x){
-          target.health -= 1;
-        }
-        return target;
-      });
+      var tmpx = player.position.x;
+      var tmpy = player.position.y;
+      attackFlag = true;
+      squareIsAttacked = function(pos) {
+        console.log("checking attacked");
+        return(pos.y == tmpy && pos.x > tmpx);
+      };
     } else if(move.name === "attack up") {
-      newPlayers = newPlayers.map(function(target) {
-        if(target.position.x === player.position.x && target.position.y < player.position.y){
-          target.health -= 1;
-        }
-        return target;
-      });
+      var tmpx = player.position.x;
+      var tmpy = player.position.y;
+      attackFlag = true;
+      squareIsAttacked = function(pos) {
+        console.log("checking attacked");
+        return(pos.x == tmpx && pos.y < tmpy);
+      };
     } else if(move.name === "attack down") {
-      newPlayers = newPlayers.map(function(target) {
-        if(target.position.x === player.position.x && target.position.y > player.position.y){
-          target.health -= 1;
-        }
-        return target;
-      });
+      var tmpx = player.position.x;
+      var tmpy = player.position.y;
+      attackFlag = true;
+      squareIsAttacked = function(pos) {
+        console.log("checking attacked");
+        return(pos.x == tmpx && pos.y > tmpy);
+      };
     } else {
       console.log(move.handle + "did nothing, or used invalid move");
     }
 
+    if(attackFlag) {
+      newPlayers = newPlayers.map(function(target) {
+        if(squareIsAttacked(target.position)){
+          target.health -= 1;
+        }
+        return target;
+      });
+    }
+
     newPlayers[playerIndex] = player;
-    this.setState({players: newPlayers, freezeInput: true, winner: this.checkWinner(), moveQueue: tempQueue});
+    this.setState({highlight: (function(pos){console.log("state function"); return squareIsAttacked(pos);}), players: newPlayers, freezeInput: true, winner: this.checkWinner(), moveQueue: tempQueue});
   },
   checkWinner: function() {
     var stillAlive = this.state.players.filter(function(player){return player.health > 0;});
