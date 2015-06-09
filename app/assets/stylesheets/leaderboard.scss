@@ -11,6 +11,7 @@
 }
 
 .leadtitle {
+  position: relative;
   padding-top: 5%;
   text-align: center;
   margin-bottom: -20%;
@@ -18,10 +19,9 @@
   font-size: 4em;
 }
 body.leaderboard {
-  background-image: image-url("bg.png");
+  background-image: image-url("croppedbg.png");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: 0 -200 ;
   overflow: scroll;
 }
 
