@@ -10,8 +10,11 @@ class UsersController < ApplicationController
 
  def update
     @user = User.find(params[:id])
-    @user.update_attributes(params[:user])
-    respond_with @user
+    if @user.update_attributes(user_params)
+      redirect_to user_path(@user), :notice => "Edit Successful!"
+    else
+      render :edit
+    end
   end
 
   def create
@@ -27,13 +30,13 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if current_user
-      @comment = @user.comments.build
+      @comments = @user.recieved_comments
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :handle, :avatar)
+    params.require(:user).permit(:email, :password, :password_confirmation, :handle, :avatar, :bio)
   end
 end

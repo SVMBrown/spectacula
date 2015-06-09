@@ -1,9 +1,14 @@
 %h1= @user.handle
 %h1= @user.email
+
+%h1 About me
+%p= @user.bio
+
 = image_tag @user.avatar.url(:thumb)
 %br
 %a{:href => edit_user_path} Edit Profile
 
+=render @comments
 / = link_to "Add Friend", friendships_path(:friend_id => user), :method => :post
 
 / %h2 Friends
@@ -14,18 +19,21 @@
 /       (#{link_to "remove", friendship, :method => :delete})
 / %p= link_to "Find Friends", users_path
 
-- @user.comments.order("created_at desc").each do |comment|
-  %p
-  = comment
-  %br/
+/ - @user.comments.order("created_at desc").each do |comment|
+/   %p
+/   = comment
+/   %br/
 
 - if current_user
   %h4 New Comment
-  = form_for([@user, @comment]) do |f|
+  =simple_form_for Comment.new(author_id: current_user.id, subject_id: params[:id]), url: '/comments' do |f|
     .field
       = f.label :comment
       %br/
       = f.text_area :comment
+    .hidden{hidden: true}
+      =f.input :author_id
+      =f.input :subject_id
     .actions
       = f.submit
 - else

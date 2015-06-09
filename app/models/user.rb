@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true
   has_many :game_players, foreign_key: :player_id
   has_many :games, through: :game_players
-  has_many :comments
+  has_many :authored_comments, foreign_key: :author_id, class_name: "Comment"
+  has_many :recieved_comments, foreign_key: :subject_id, class_name: "Comment"
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100#" }, :default_url => "/images/:style/missing.png"
 
