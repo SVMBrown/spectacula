@@ -2,10 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .clearfix:after {
-  content: " "; 
-  display: block; 
-  height: 0; 
-  clear: both; 
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both;
   visibility: hidden;
 
 }
@@ -31,12 +31,13 @@
   $table-stripe-background-hover: darken($table-stripe-background, 5%);
   $table-padding: 0.75em 1em;
 
-  border-collapse: separate;
+  table-layout: fixed;
+  border-collapse: collapse;
   border-left: 0px;
   border-radius: 5px;
   border-spacing: 0;
   border: $table-border;
-  width: 70%;
+  width: 90%;
   margin-top: 12%;
   opacity: 0.85;
   background: transparent;
@@ -80,7 +81,7 @@
     th {
       background-color: $table-header-background;
       border-bottom: 0px;
-     
+
       padding: $table-padding;
       text-align: left;
 
@@ -98,6 +99,7 @@
       border-left: 1px solid $table-border-color;
       border-top: 1px solid $table-border-color;
       padding: $table-padding;
+      word-wrap: break-word;
 
       &:first-child {
         border-left: none;
