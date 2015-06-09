@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-
+  get "games/join" => "games#join"
   resources :password_resets, only: [:edit, :create, :update, :new]
   resources :user_sessions, only: [:new, :create, :destroy]
   resources :users
@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   resources :comments, only: [:show, :create, :destroy]
   get "signup" => "users#new", :as => :signup
   get "games/:id/play" => "games#play"
-  get "games/join" => "games#join"
   get 'login' => 'user_sessions#new', :as => :login
   post 'logout' => 'user_sessions#destroy', :as => :logout
   root 'landing#index'
