@@ -1,11 +1,10 @@
 var Tile = React.createClass({
   getStyle: function () {
-    var style = {};
-    var that = this;
-    if(this.props.highlight({x: that.props.x, y: that.props.y})) {
+    var style = this.props.style;
+    var pos = {x: this.props.x, y: this.props.y};
+    if(this.props.highlight(pos)) {
       style.backgroundColor = 'yellow';
     }
-    style.color = this.props.occupant;
     return style;
   },
   render: function () {
