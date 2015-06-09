@@ -1,0 +1,7 @@
+.side-image
+  .images-wrapper
+  .side-image-content
+    =simple_form_for @game do |f|
+      =f.input :capacity
+      =f.submit
+    =link_to "Join a game instead!", "/games/join"

@@ -11,6 +11,7 @@ var MoveSelector = React.createClass({
       <button onClick={(function(){that.props.load({name: "attack up", type: "move"})})}>attack up</button>
       <button onClick={(function(){that.props.load({name: "attack down", type: "move"})})}>attack down</button>
       <button onClick={that.props.commit}>commit</button>
-      <button onClick={that.props.clearMoves}>clear</button></div>);
+      <button onClick={that.props.clearMoves}>clear</button>
+  </div>);
   }
 });

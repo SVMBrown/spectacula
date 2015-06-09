@@ -10,6 +10,20 @@
 
 }
 
+.leadtitle {
+  padding-top: 5%;
+  text-align: center;
+  margin-bottom: -5%;
+  font-size: 4em;
+}
+body.leaderboard {
+  background-image: url("http://i62.tinypic.com/2ilelbk.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 -100 ;
+  overflow: scroll;
+}
+
 .leaderboard-table {
   $base-border-color: gainsboro !default;
   $base-border-radius: 3px !default;
@@ -31,6 +45,7 @@
   $table-stripe-background-hover: darken($table-stripe-background, 5%);
   $table-padding: 0.75em 1em;
 
+  position: relative;
   table-layout: fixed;
   border-collapse: collapse;
   border-left: 0px;
@@ -39,6 +54,8 @@
   border: $table-border;
   width: 90%;
   margin-top: 12%;
+  margin-left: auto;
+  margin-right: auto;
   opacity: 0.85;
   background: transparent;
   box-shadow: 10px 5px 30px #000000;
@@ -84,6 +101,7 @@
 
       padding: $table-padding;
       text-align: left;
+      color: white;
 
       &:first-child {
         border-left: none;

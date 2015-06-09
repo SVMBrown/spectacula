@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
 
-
+  get "games/join" => "games#join"
+  resources :articles, only: [:index, :show]
   resources :password_resets, only: [:edit, :create, :update, :new]
   resources :user_sessions, only: [:new, :create, :destroy]
   resources :users
   resources :landing, only:[:index]
   resources :rules, only: [:show, :index]
   resources :leaderboard, only: [:index, :show]
-  resources :games, only: [:new, :show]
+  resources :games, only: [:new, :show, :create]
   resources :comments, only: [:show, :create, :destroy]
   get "signup" => "users#new", :as => :signup
   get "games/:id/play" => "games#play"
