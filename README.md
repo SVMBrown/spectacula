@@ -62,3 +62,12 @@ Lower priority, but would still be nice
 * move leaderboard to user#index
 * create game history partial
   * for nested list of games on user#show
+
+
+###Rules
+
+Battle your friends in the arena. The last player standing wins!
+Each round players plan a series of four moves, which can be either moving their player or firing a ranged attack.
+These moves are then carried out in order. Plan wisely!
+Each player has 5 hit points, and attacks do one damage.
+
