@@ -1,38 +1,33 @@
-%center
-  %h1
-  %h1
-    / %img(src="http://i60.tinypic.com/250jarc.png")
-  %table{:class => "leaderboard-table"}
-    %thead
-      %tr
-        %th 
-          %img(src="http://i60.tinypic.com/2h2ibtc.png")  User
-        %th Wins
-        %th Losses
-        %th Games Played
-        %th Win Rate
-    -@users.sort{|a, b| a.total_wins <=> b.total_wins}
-    -@users.each do | user |
-      %tr
-        %td{"data-th" => "User"}
-          =user.handle
-        %td{"data-th" => "Wins"}
-          =user.total_wins
-        %td{"data-th" => "Losses"}
-          =user.total_losses
-        %td{"data-th" => "Games Played"}
-          =user.total_games
-        %td{"data-th" => "Win Rate"}
-          ='%02f' % (user.win_rate * 100) + '%'
+
+.leadtitle
+  %h1 Leaderboards
+%table{:class => "leaderboard-table"}
+  %thead
+    %tr
+      %th
+        %img(src="http://i60.tinypic.com/2h2ibtc.png")  User
+      %th Wins
+      %th Losses
+      %th Games Played
+      %th Win Rate
+  -@users.sort{|a, b| a.total_wins <=> b.total_wins}
+  -@users.each do | user |
+    %tr
+      %td{"data-th" => "User"}
+        =user.handle
+      %td{"data-th" => "Wins"}
+        =user.total_wins
+      %td{"data-th" => "Losses"}
+        =user.total_losses
+      %td{"data-th" => "Games Played"}
+        =user.total_games
+      %td{"data-th" => "Win Rate"}
+        ='%02f' % (user.win_rate * 100) + '%'
 
 
 :css
   body {
-  background-image: url("http://i62.tinypic.com/2ilelbk.png");
-  
-  background-repeat: no-repeat;
-  background-size: cover; 
-  overflow: hidden;
+
   }
 
   main.app {
@@ -40,4 +35,3 @@
 
   }
 
- 
