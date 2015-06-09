@@ -1,14 +1,24 @@
 var Board = React.createClass({
     getDefaultProps: function() {
       return {
+        baseStyle:{
+          border: '2px solid rgba(5, 5, 5, 0.4)',
+          fontSize: '0.4em',
+          verticalAlign: 'top',
+          backgroundImage: "url(http://opengameart.org/sites/default/files/04pavinform256.png)",
+          backgroundSize: "contain"
+        },
         emptyStyle: {color: 'black'},
         collisionStyle: {color: 'red'}
       }
     },
+    getOccupants: function (x, y) {
+      return this.props.players.filter(function(elem){return(elem.position.x === x && elem.position.y === y)});
+    },
     getStyleFor: function (x, y) {
       var empty = this.props.emptyStyle;
       var collision = this.props.collisionStyle;
-      var occupants = this.props.players.filter(function(elem){return(elem.position.x === x && elem.position.y === y)});
+      var occupants = this.getOccupants(x, y);
       if(occupants.length === 0) {
         return empty;
       } else if (occupants.length === 1) {
@@ -20,18 +30,20 @@ var Board = React.createClass({
     render: function () {
         var rows = [];
         var that = this;
-        for(var y = 0; y < 8; y++) {
-          rows.push((function (y) {
+        for(var i = 0; i < 8; i++) {
+          rows.push((function (i) {
             var row = [];
-            for(var x = 0; x < 8; x++) {
-              row.push(<Tile {...that.props} key={x} x={x} y={y} style={that.getStyleFor(x, y)} />);
+            for(var j = 0; j < 8; j++) {
+              var x = j;
+              var y = i;
+              row.push(<Tile {...that.props} key={x} x={x} y={y} style={that.getStyleFor(x, y)} occupants={that.getOccupants(x, y)} highlighted={that.props.highlight({x: x, y: y})}/>);
             }
-            return (<tr key={y}>{row}</tr>);
-          })(y));
+            return (<tr key={i}>{row}</tr>);
+          })(i));
         }
         return (
-          <div>
-            <table><tbody>{rows}</tbody></table>
+          <div className="board" style={{position: 'relative'}}>
+            <table style={{margin: "15 auto", width: 450, height: 450}}><tbody>{rows}</tbody></table>
             <MoveQueue {...this.props} />
           </div>
         );

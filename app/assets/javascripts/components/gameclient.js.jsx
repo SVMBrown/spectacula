@@ -8,11 +8,11 @@ var GameClient = React.createClass({
     } else {
       return (
         <div className="game-client">
-          <Board {...this.props} moves={this.state.moveQueue} players={this.state.players} highlight={this.state.highlight} />
+          <Board {...this.props} moves={this.state.moveQueue} players={this.state.players} highlight={this.state.highlight} attack={this.state.attack} />
           <HUD {...this.props} moves={this.state.pendingMoves} load={this.loadMove} commit={this.commitMoves} clearMoves={this.clearMoves} />
-          <p className="round"> round: {this.state.round} </p>
+          <p className="round"> round: {this.state.round + 1} </p>
           <dl className="legend">
-            {this.state.players.map(function(elem, i){return(<div className="player" key={i}><dt>{elem.handle}, {elem.health}</dt><dd style={{backgroundColor: elem.color}}>{elem.color}</dd></div>);})}
+            {this.state.players.map(function(elem, i){return(<div className="player" key={i}><dt>{elem.handle}, {elem.health}</dt><dd style={{width: "34px", height: "45px", backgroundImage: "url(http://opengameart.org/sites/default/files/Arena_Game_Sprites_by_RedKnight91-CCBYSA3.png)", backgroundPosition: "-" + i * 35 + " 0"}}>{elem.color}</dd></div>);})}
           </dl>
         </div>
       );
@@ -47,7 +47,8 @@ var GameClient = React.createClass({
         round: this.props.round || 0,
         freezeInput: false,
         winner: this.props.winner || null,
-        highlight: function(){ return false;}
+        highlight: function(){ return false;},
+        attack: false
       };
   },
   // On Creation of the element, set up message listener (just feeds parsed messages to the router above)
@@ -128,7 +129,7 @@ var GameClient = React.createClass({
   },
   resolveMove: function() {
     var squareIsAttacked = function(){ return false;};
-    var attackFlag = false;
+    var attack = false;
     var tempQueue = this.state.moveQueue.slice();
     var move = tempQueue.pop();
     var player = this.state.players.filter(function(element){
@@ -151,35 +152,35 @@ var GameClient = React.createClass({
     } else if(move.name === "attack left") {
       var tmpx = player.position.x;
       var tmpy = player.position.y;
-      attackFlag = true;
+      attack = "left";
       squareIsAttacked = function(pos) {
         return(pos.y == tmpy && pos.x < tmpx);
       };
     } else if(move.name === "attack right") {
       var tmpx = player.position.x;
       var tmpy = player.position.y;
-      attackFlag = true;
+      attack = "right";
       squareIsAttacked = function(pos) {
         return(pos.y == tmpy && pos.x > tmpx);
       };
     } else if(move.name === "attack up") {
       var tmpx = player.position.x;
       var tmpy = player.position.y;
-      attackFlag = true;
+      attack = "up";
       squareIsAttacked = function(pos) {
         return(pos.x == tmpx && pos.y < tmpy);
       };
     } else if(move.name === "attack down") {
       var tmpx = player.position.x;
       var tmpy = player.position.y;
-      attackFlag = true;
+      attack = "down";
       squareIsAttacked = function(pos) {
         return(pos.x == tmpx && pos.y > tmpy);
       };
     } else {
     }
 
-    if(attackFlag) {
+    if(attack) {
       newPlayers = newPlayers.map(function(target) {
         if(squareIsAttacked(target.position)){
           target.health -= 1;
@@ -189,7 +190,7 @@ var GameClient = React.createClass({
     }
 
     newPlayers[playerIndex] = player;
-    this.setState({highlight: squareIsAttacked, players: newPlayers, freezeInput: true, winner: this.checkWinner(), moveQueue: tempQueue});
+    this.setState({highlight: squareIsAttacked, attack: attack, players: newPlayers, freezeInput: true, winner: this.checkWinner(), moveQueue: tempQueue});
   },
 
   checkWinner: function() {
