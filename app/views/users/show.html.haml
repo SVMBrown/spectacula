@@ -1,5 +1,9 @@
 %h1= @user.handle
 %h1= @user.email
+
+%h1 About me
+%p= @user.bio
+
 = image_tag @user.avatar.url(:thumb)
 %br
 %a{:href => edit_user_path} Edit Profile
