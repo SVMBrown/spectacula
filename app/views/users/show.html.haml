@@ -1,42 +1,70 @@
-%h1= @user.handle
-%h1= @user.email
 
-%h1 About me
-%p= @user.bio
+%section
+  %header.profile-header
+    .profile-image{:style => "background-image:url(http://i62.tinypic.com/15x8om1.jpg)"}
+    .profile-info
+      %h1
+        %img(src="http://i.imgur.com/bdUSt1u.png")
+        =@user.handle
+      =@user.email
+      %p
+      %h3 About me:
+      =@user.bio
+      %p
+      - if current_user
+        %h4 New Comment
+        =simple_form_for Comment.new(author_id: current_user.id, subject_id: params[:id]), url: '/comments' do |f|
+          .field
+            = f.text_area :comment
+          .hidden{hidden: true}
+            =f.input :author_id
+            =f.input :subject_id
+          .actions
+            = f.submit
+      - else
+        %p
+          Please #{link_to "log in", new_session_path} to add a comment.
+      =render @comments
 
-= image_tag @user.avatar.url(:thumb)
-%br
-%a{:href => edit_user_path} Edit Profile
+/ %h1= @user.handle
+/ %h1= @user.email
 
-=render @comments
-/ = link_to "Add Friend", friendships_path(:friend_id => user), :method => :post
+/ %h1 About me
+/ %p= @user.bio
 
-/ %h2 Friends
-/ %ul
-/   - for friendship in @user.friendships
-/     %li
-/       = h friendship.friend.username
-/       (#{link_to "remove", friendship, :method => :delete})
-/ %p= link_to "Find Friends", users_path
+/ = image_tag @user.avatar.url(:thumb)
+/ %br
+/ %a{:href => edit_user_path} Edit Profile
 
-/ - @user.comments.order("created_at desc").each do |comment|
+/ =render @comments
+/ / = link_to "Add Friend", friendships_path(:friend_id => user), :method => :post
+
+/ / %h2 Friends
+/ / %ul
+/ /   - for friendship in @user.friendships
+/ /     %li
+/ /       = h friendship.friend.username
+/ /       (#{link_to "remove", friendship, :method => :delete})
+/ / %p= link_to "Find Friends", users_path
+
+/ / - @user.comments.order("created_at desc").each do |comment|
+/ /   %p
+/ /   = comment
+/ /   %br/
+
+/ - if current_user
+/   %h4 New Comment
+/   =simple_form_for Comment.new(author_id: current_user.id, subject_id: params[:id]), url: '/comments' do |f|
+/     .field
+/       = f.label :comment
+/       %br/
+/       = f.text_area :comment
+/     .hidden{hidden: true}
+/       =f.input :author_id
+/       =f.input :subject_id
+/     .actions
+/       = f.submit
+/ - else
 /   %p
-/   = comment
-/   %br/
-
-- if current_user
-  %h4 New Comment
-  =simple_form_for Comment.new(author_id: current_user.id, subject_id: params[:id]), url: '/comments' do |f|
-    .field
-      = f.label :comment
-      %br/
-      = f.text_area :comment
-    .hidden{hidden: true}
-      =f.input :author_id
-      =f.input :subject_id
-    .actions
-      = f.submit
-- else
-  %p
-    Please #{link_to "log in", new_session_path} to add a comment.
+/     Please #{link_to "log in", new_session_path} to add a comment.
 
