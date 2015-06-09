@@ -23,7 +23,7 @@ var GameClient = React.createClass({
     return {
       max: 4,
       size: 8,
-      styles: [{color: 'green'},{color: 'blue'}, {color: 'yellow'}, {color: 'purple'}],
+      styles: [{color: 'green'}, {color: 'blue'}, {color: 'yellow'}, {color: 'purple'}],
       positions: [{x: 0, y: 0}, {x: 7, y: 7},
       {x: 0, y: 7}, {x: 7, y: 0}],
       health: 5
