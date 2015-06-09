@@ -11,16 +11,17 @@
 }
 
 .leadtitle {
+  position: relative;
   padding-top: 5%;
   text-align: center;
-  margin-bottom: -5%;
+  margin-bottom: -20%;
+  margin-top: -8%;
   font-size: 4em;
 }
 body.leaderboard {
-  background-image: url("http://i62.tinypic.com/2ilelbk.png");
+  background-image: image-url("croppedbg.png");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: 0 -100 ;
   overflow: scroll;
 }
 

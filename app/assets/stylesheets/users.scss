@@ -1,3 +1,188 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$background : #e9e9e9;
+$shadow: 0 0 25px rgba(0, 0, 0, 0.04);
+$inset-shadow: inset 0 0 25px rgba(0, 0, 0, 0.2);
+
+
+section {
+  max-width: 800px;
+  height: 100%;
+  margin: 0 auto;
+  margin-top: 2%;
+  padding-bottom: 100%;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: $shadow;
+  box-shadow: 5px 5px 25px #666666;
+
+}
+
+  .profile-header {
+    display: flex;
+    padding: 30px;
+    height: 100px;
+    background-image: url('http://i62.tinypic.com/2ilelbk.png');
+    background-position:cover;
+    background-position: center;
+    border-radius: 10px 10px 0 0;
+    opacity: 0.9;
+    filter: alpha(opacity=0.9);
+  }
+
+
+.profile-image {
+  display: block;
+  float: center;
+  width: 140px;
+  height: 140px;
+  margin-right: 30px;
+  border-radius: 90px;
+  vertical-align: top;
+  box-shadow: $inset-shadow;
+  background-size: cover;
+  background-position: left;
+  transition: box-shadow .8s;
+
+  &:hover {
+    box-shadow: inset 0 0 25px rgba(0,0,0,0);
+  }
+}
+
+h1 {
+  font-size: 35px;
+  line-height: 60px;
+  font-weight: 300;
+  font-color: #ffffff;
+}
+h2 {
+  font-size: 16px;
+  line-height: 25px;
+}
+
+h3 {
+  font-size:12px;
+  letter-spacing: 1px;
+  font-color: #d3d3d3;
+}
+
+.about {
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  display: block;
+  padding: 5px;
+
+}
+
+.comments {
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  display: block;
+  padding: 5px;
+
+}
+
+.stats {
+
+  background-color: #ffffff;
+  display:block;
+  padding:5px;
+  margin-top:150px;
+  position:center;
+
+
+}
+
+.profile-info {
+  padding-top: 20px;
+  flex: 1;
+}
+
+section {
+}
+
+// .stats {
+//   background: #F3F3F3;
+//   border-width: 2px 0;
+//   padding: 15px 30px;
+
+//   h1 {
+//     display: inline-block;
+//     font-size: 20px;
+//     line-height: 50px;
+//     padding-right: 15px;
+
+//   }
+
+//   div {
+//     display: inline-block;
+//     vertical-align: top;
+//     margin: 0 5px;
+//     width: 50px;
+//     height: 50px;
+//     border-radius: 50%;
+//     background: rgba(0,0,0,.3);
+//     cursor: pointer;
+//     background-image: url();
+//     box-shadow: $shadow;
+//     animation:
+//       roll
+//       1s
+//       ease-out
+//       both;
+
+//     @for $i from 1 through 10 {
+//       $random : random(44);
+//       $pos : $random * 50px;
+
+//       &:nth-child(#{$i}) {
+//         background-position: $pos 0;
+//         animation-delay: $i * .085s;
+//       }
+//     }
+//   }
+// }
+
+// @keyframes roll {
+//   from {
+//     transform:
+//       translate3d(180px,0,0)
+//       rotate(135deg);
+//     opacity: 0;
+//   }
+// }
+
+
+// Font
+@font-face {
+  font-family: 'museo-sans-rounded';
+  src: url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-300-webfont.eot');
+  src: url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-300-webfont.eot?#iefix') format('embedded-opentype'),
+     url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-300-webfont.woff') format('woff'),
+     url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-300-webfont.ttf') format('truetype'),
+     url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-300-webfont.svg#museo_sans_rounded300') format('svg');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'museo-sans-rounded';
+  src: url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-500-webfont.eot');
+  src: url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-500-webfont.eot?#iefix') format('embedded-opentype'),
+     url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-500-webfont.woff') format('woff'),
+     url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-500-webfont.ttf') format('truetype'),
+     url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-500-webfont.svg#museo_sans_rounded500') format('svg');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'museo-sans-rounded';
+  src: url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-700-webfont.eot');
+  src: url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-700-webfont.eot?#iefix') format('embedded-opentype'),
+     url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-700-webfont.woff') format('woff'),
+     url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-700-webfont.ttf') format('truetype'),
+     url('//d7mj4aqfscim2.cloudfront.net/proxy/fonts/museo/museosansrounded-700-webfont.svg#museo_sans_rounded700') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
