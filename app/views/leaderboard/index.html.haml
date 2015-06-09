@@ -1,11 +1,12 @@
 %center
   %h1
   %h1
-    Leaderboards
-  %table{:class => "tables"}
+    / %img(src="http://i60.tinypic.com/250jarc.png")
+  %table{:class => "leaderboard-table"}
     %thead
       %tr
-        %th User
+        %th 
+          %img(src="http://i60.tinypic.com/2h2ibtc.png")  User
         %th Wins
         %th Losses
         %th Games Played
@@ -25,3 +26,7 @@
           ='%02f' % (user.win_rate * 100) + '%'
 
 
+:css
+  body {
+  background-image: url("http://i62.tinypic.com/2ilelbk.png");
+  background-size:cover;

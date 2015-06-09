@@ -2,22 +2,22 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.tables {
+.leaderboard-table {
   $base-border-color: gainsboro !default;
   $base-border-radius: 3px !default;
   $base-line-height: 1.5em !default;
   $base-spacing: 1.5em !default;
   $action-color: #477DCA !default;
   $base-link-color: $action-color !default;
-  $dark-gray: #333 !default;
+  $dark-gray: #fff !default;
   $light-gray: #DDD !default;
   $medium-screen: em(640) !default;
   $large-screen: em(860) !default;
-  $base-font-color: $dark-gray !default;
+  $base-font-color: $light-gray !default;
   $table-border-color: $base-border-color;
   $table-border: 1px solid $table-border-color;
-  $table-background: lighten($table-border-color, 12%);
-  $table-header-background: lighten($table-background, 10%);
+  $table-background: darken($table-border-color, 12%);
+  $table-header-background: darken($table-background, 70%);
   $table-hover-background: darken($table-background, 5%);
   $table-stripe-background: darken($table-background, 2%);
   $table-stripe-background-hover: darken($table-stripe-background, 5%);
@@ -25,10 +25,14 @@
 
   border-collapse: separate;
   border-left: 0px;
-  border-radius: $base-border-radius;
+  border-radius: 5px;
   border-spacing: 0;
   border: $table-border;
-  width: 100%;
+  width: 70%;
+  margin-top: 12%;
+  opacity: 0.85;
+  background: transparent;
+  box-shadow: 10px 5px 30px #000000;
 
   tbody {
     background-color: $table-background;
@@ -68,7 +72,7 @@
     th {
       background-color: $table-header-background;
       border-bottom: 0px;
-      border-left: 1px solid $table-border-color;
+     
       padding: $table-padding;
       text-align: left;
 
