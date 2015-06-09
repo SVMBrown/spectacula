@@ -1,23 +1,10 @@
-= form_for @user do |f|
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :email
-    = f.text_field :email
-  .field
-    = f.label :gender
-    = f.password_field :gender
-  .field
-    = f.label :location
-    = f.password_field :location
-  .field
-    = f.label :bio
-    %br/
-    = f.password_field :bio
-  .actions
-    = f.submit "Update Profile"
-= form_for @user do |f|
-  = f.file_field :avatar
-  %br/
-  = f.submit "Update"
+%h1= @user.handle
+= simple_form_for @user do |f|
+  .form-inputs
+    =f.input :email
+    =f.input :password
+    =f.input :password_confirmation
+    =f.input :avatar
+    =f.input :bio
+  .form-actions
+    =f.submit

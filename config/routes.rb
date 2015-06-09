@@ -1,23 +1,14 @@
 Rails.application.routes.draw do
 
 
-
-  get 'comments/show'
-
-  get 'comments/create'
-
-  get 'comments/destroy'
-
   resources :password_resets, only: [:edit, :create, :update, :new]
   resources :user_sessions, only: [:new, :create, :destroy]
-  resources :users, only: [:new, :create, :show]
+  resources :users
   resources :landing, only:[:index]
   resources :rules, only: [:show, :index]
   resources :leaderboard, only: [:index, :show]
   resources :games, only: [:new, :show]
-  resources :users do
   resources :comments, only: [:show, :create, :destroy]
-end
   get "signup" => "users#new", :as => :signup
   get "games/:id/play" => "games#play"
   get 'login' => 'user_sessions#new', :as => :login
