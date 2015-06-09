@@ -17,18 +17,18 @@ var Tile = React.createClass({
   generateBody: function(occ) {
     var attack = false;
     if(this.props.highlighted && !occ) {
-      var attackStyle = {backgroundImage: "url(http://opengameart.org/sites/default/files/projectiles.png)", width: "100%", height:"85%", backgroundColor:"", position: "float"};
+      var attackStyle = {backgroundImage: "url(http://opengameart.org/sites/default/files/projectiles.png)", width: "100%", height:"85%", backgroundColor:"",  margin: "0 auto"};
       if(this.props.attack === "left") {
-        attackStyle.backgroundPosition = "0 0";
+        attackStyle.backgroundPosition = "4 -64";
         attack = (<div style={attackStyle}>{this.props.x + 1}, {this.props.y + 1}</div>);
       } else if(this.props.attack === "up") {
-        attackStyle.backgroundPosition = "-128 0";
+        attackStyle.backgroundPosition = "-128 -64";
         attack = (<div style={attackStyle}>{this.props.x + 1}, {this.props.y + 1}</div>);
       } else if(this.props.attack === "right") {
-        attackStyle.backgroundPosition = "-256 0";
+        attackStyle.backgroundPosition = "-264 -64";
         attack = (<div style={attackStyle}>{this.props.x + 1}, {this.props.y + 1}</div>);
       } else if(this.props.attack === "down") {
-        attackStyle.backgroundPosition = "-384 0";
+        attackStyle.backgroundPosition = "-384 -64";
         attack = (<div style={attackStyle}>{this.props.x + 1}, {this.props.y + 1}</div>);
       } else {
         attack = "";
@@ -36,16 +36,16 @@ var Tile = React.createClass({
     } else if (this.props.highlighted && occ) {
       var attackStyle = {backgroundImage: "url(http://opengameart.org/sites/default/files/projectiles.png)", width: "100%", height:"85%", backgroundColor:"", position: "float"};
       if(this.props.attack === "left") {
-        attackStyle.backgroundPosition = "0 0";
+        attackStyle.backgroundPosition = "4 -64";
         attack = (<div style={attackStyle}></div>);
       } else if(this.props.attack === "up") {
-        attackStyle.backgroundPosition = "-128 0";
+        attackStyle.backgroundPosition = "-128 -64";
         attack = (<div style={attackStyle}></div>);
       } else if(this.props.attack === "right") {
-        attackStyle.backgroundPosition = "-256 0";
+        attackStyle.backgroundPosition = "-264 -64";
         attack = (<div style={attackStyle}></div>);
       } else if(this.props.attack === "down") {
-        attackStyle.backgroundPosition = "-384 0";
+        attackStyle.backgroundPosition = "-384 -64";
         attack = (<div style={attackStyle}></div>);
       } else {
         attack = "";
