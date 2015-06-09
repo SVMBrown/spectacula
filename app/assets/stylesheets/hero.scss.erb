@@ -22,6 +22,10 @@
   .hero-inner {
     @include outer-container;
     @include clearfix;
+    background-color: rgba(0,0,0,0.3);
+    min-width: 40%;
+    max-width: 80%;
+    height: 100%;
     color: $hero-color;
     margin: auto;
     padding: 3.5em;
@@ -37,6 +41,7 @@
 
         @include media($large-screen) {
           font-size: 1.8em;
+          max-width: 100%;
         }
       }
 
@@ -47,7 +52,7 @@
 
         @include media($large-screen) {
           font-size: 1.1em;
-          max-width: 40%;
+          max-width: 100%;
         }
       }
     }
