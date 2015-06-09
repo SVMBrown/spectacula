@@ -7,10 +7,11 @@ Rails.application.routes.draw do
   resources :landing, only:[:index]
   resources :rules, only: [:show, :index]
   resources :leaderboard, only: [:index, :show]
-  resources :games, only: [:new, :show]
+  resources :games, only: [:new, :show, :create]
   resources :comments, only: [:show, :create, :destroy]
   get "signup" => "users#new", :as => :signup
   get "games/:id/play" => "games#play"
+  get "games/join" => "games#join"
   get 'login' => 'user_sessions#new', :as => :login
   post 'logout' => 'user_sessions#destroy', :as => :logout
   root 'landing#index'

@@ -2,24 +2,38 @@ class GamesController < ApplicationController
   include Tubesock::Hijack
   $sockets = []
   def new
-    puts "entered Game#new"
-    openGames = Game.all.select{|g| g && g.open}
+    @game = Game.new(capacity: 2)
+  end
 
-    @game = openGames.length >= 1 ? openGames.first : Game.create(capacity: 2)
-    if(openGames.length >= 1)
-      puts "Selected game #{@game.id}"
+  def create
+    @game = Game.new(game_params)
+    if @game.save
+      @game.add_player(current_user)
+      redirect_to game_path(@game)
     else
-      puts "Created game #{@game.id}"
+      render :new, alert: "game creation failed"
     end
-
-    @game.add_player(current_user)
-    puts "added player"
-    redirect_to game_path(@game)
   end
 
   def show
     puts "entered Game#show"
     @game = Game.find(params[:id])
+  end
+
+  def join
+    openGames = Game.all.select{|g| g && g.open}
+    if openGames.length >= 1
+      @game = openGames.first
+    else
+      @game = Game.create(capacity: 2)
+    end
+    @game.add_player(current_user)
+    if @game.open
+      notice = "waiting for more players"
+    else
+      notice = "BEGIN"
+    end
+    redirect_to game_path(@game), notice: notice
   end
 
   def play
@@ -35,7 +49,7 @@ class GamesController < ApplicationController
           elsif @game.state
             tube.send_data(@game.state)
           else
-            tube.send_data(JSON.generate({type: "setup",
+            broadcast(JSON.generate({type: "setup",
               players: @game.players.sort_by { |e| e.game_players.where(game_id: params[:id]).first.order }.map{|p| p.handle},
               maxmoves: 4,
               boardsize: 8}))
@@ -69,6 +83,10 @@ class GamesController < ApplicationController
     end
   end
 private
+  def game_params
+    params.require(:game).permit(:capacity)
+  end
+
   def generate_round(gameplayers)
     round = []
     moves = gameplayers.map do |gp|
