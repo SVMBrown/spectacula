@@ -1,0 +1,5 @@
+%h1 News
+= @articles.each do |a|
+  %article
+    %h3=a.title
+    %p=a.body
